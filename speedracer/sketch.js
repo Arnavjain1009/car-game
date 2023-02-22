@@ -8,7 +8,7 @@ var fuelImage,lifeImage , powerCoinImage;
 //BP
 function preload() {
   backgroundImage = loadImage("./speedracer/assets/background.png");
-  car1_img = loadImage("./speedracer/assets/car1.png");
+  car1_img = loadImage("./assets/car1.png");
   car2_img = loadImage("./speedracer/assets/car2.png");
   track = loadImage("./speedracer/assets/track.jpg");
   fuelImage = loadImage("./speedracer/assets/fuel.png");
