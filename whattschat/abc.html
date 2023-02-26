@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-database.js"></script>
+
+  
+<style>
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+</style>
+</head>
+<body>
+
+<h2>R9 Work (v1.3)</h2>
+  <h3>CREATED BY ARNAV JAIN </h3>
+
+
+<button class="button"  onclick="incrmyvalue()">add</button> <br> <br>
+<br> <h2 id="id1">0</h2><br>
+<button class="button"  onclick="getmyvalue()">get</button> <br> <br>
+
+
+</body>
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
+  authDomain: "whattschat-f522c.firebaseapp.com",
+  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
+  projectId: "whattschat-f522c",
+  storageBucket: "whattschat-f522c.appspot.com",
+  messagingSenderId: "746097682908",
+  appId: "1:746097682908:web:51a0278320ad4af5774719",
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+ 
+var database;
+database = firebase.database();
+
+var MyValRef = database.ref("myvalue");
+
+MyValRef.on("value", data => {
+  document.getElementById("id1").innerHTML = "My Value is " + data.val();
+  });
+
+</script>
+
+<script>
+  function getmyvalue(){
+    var MyValRef = database.ref("myvalue");
+
+    MyValRef.on("value", data => {
+      document.getElementById("id1").innerHTML = data.val();
+      });
+  }
+
+  function incrmyvalue(){
+    let newvalue = document.getElementById("id1").innerHTML;
+    newvalue = 1 * newvalue + 1;
+
+    database.ref("/").update({
+      myvalue: newvalue
+   });
+  }
+</script>
+
+</html>
