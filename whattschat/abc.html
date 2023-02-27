@@ -6,6 +6,20 @@
 
   
 <style>
+  .customInput {
+  width:200px;
+  height:30px;
+  border: 3px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  background-color:transparent;
+  font-size: 20px;
+  outline:none;
+  color:white;
+  font-family: vollkorn;
+  text-align: center;
+}
+
 .button {
   display: inline-block;
   padding: 15px 25px;
@@ -32,14 +46,24 @@
 </head>
 <body>
 
-<h2>R9 Work (v1.3)</h2>
+<h2>whattschat (v1.4)</h2>
   <h3>CREATED BY ARNAV JAIN </h3>
 
 
-<button class="button"  onclick="incrmyvalue()">add</button> <br> <br>
-<br> <h2 id="id1">0</h2><br>
-<button class="button"  onclick="getmyvalue()">get</button> <br> <br>
 
+<form >
+  
+  <label for="username">username:</label>
+  <input type="text" id="username" name="username"><br><br>
+  <label for="password">password:</label>
+  <input type="text" id="password" name="password"><br><br>
+  <input type="button" class="button" value="SIGN IN" onclick="incrmyvalue()">
+  
+</form>
+
+<button type="button"  onclick="incrmyvalue()">add</button> <br> <br>
+<br> <h2 id="id1">0</h2><br>
+<button type="button"  onclick="getmyvalue()">get</button> <br> <br>
 
 </body>
 
@@ -85,5 +109,6 @@ MyValRef.on("value", data => {
    });
   }
 </script>
+
 
 </html>
