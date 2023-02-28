@@ -6,6 +6,7 @@
 
   
 <style>
+  
   .customInput {
   width:200px;
   height:30px;
@@ -46,21 +47,22 @@
   background-color: #800080;
   border: none;
   border-radius: 15px;
-  box-shadow: 0 9px #999;
+  box-shadow: 0 9px #3e8e41;
 }
 
 .button:hover {background-color: #3e8e41}
+.button1:hover {background-color: #242124}
 
 .button:active {
   background-color: #3e8e41;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
-</style>
+</style>  
 </head>
 <body>
 
-<h2>whattschat (v1.7)</h2>
+<h2>whattschat (v1.8)</h2>
   <h3>CREATED BY ARNAV JAIN </h3>
 
 
@@ -77,7 +79,7 @@
       <td><label for="password">password:</label></td>
       <td><input type="text" id="password1" name="password"></td>
       </tr>
-      <tr><td></td><td><input type="button" class="button" value="SIGN IN" onclick="fnSignUP()"></td>
+      <tr><td></td><td><input type="button" class="button1" value="SIGN IN" onclick="fnSignUP()"></td>
       </tr>
     </table>
   </td>
@@ -91,7 +93,7 @@
     <td><label for="password2">password:</label></td>
     <td><input type="text" id="password2" name="password22"></td>
     </tr>
-    <tr><td></td><td><input type="button" class="button" value="LOG IN" onclick="fnLogin()"></td>
+    <tr><td></td><td><input type="button" class="button1" value="LOG IN" onclick="fnLogin()"></td>
     </tr>
   </table>
   </td>
@@ -150,13 +152,14 @@ MyValRef.on("value", data => {
       return;
     }
 
-    myuserid = "USER:" + myuserid;
+    
 
     database.ref("/" + myuserid).update({
       password : mypassword
+      
    });
 
-   alert(myuserid + " created successfully");
+   alert("username : "+ myuserid + " was created successfully , thank you :" + myuserid );
   }
 </script>
 
