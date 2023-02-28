@@ -23,7 +23,7 @@
 .button {
   display: inline-block;
   padding: 15px 25px;
-  font-size: 24px;
+  font-size: 14px;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
@@ -31,7 +31,7 @@
   color: #fff;
   background-color: #4CAF50;
   border: none;
-  border-radius: 15px;
+  border-radius: 14px;
   box-shadow: 0 9px #999;
 }
 .button1 {
@@ -66,24 +66,40 @@
 
 
 <form >
-  
-  <label for="username">username:</label>
-  <input type="text" id="username" name="username"><br><br>
-  <label for="password">password:</label>
-  <input type="text" id="password" name="password"><br><br>
-  <input type="button" class="button" value="SIGN UP" onclick="incrmyvalue()">
-  <br> <br>
-  <label for="username">username:</label>
-  <input type="text" id="username" name="username"><br><br>
-  <label for="password">password:</label>
-  <input type="text" id="password" name="password"><br><br>
-  <input type="button" class="button" value="LOG IN" onclick="incrmyvalue()">
-  
+  <table>
+  <tr>
+  <td>
+    <table>
+      <tr>
+      <td><label for="username">username:</label></td>
+      <td><input type="text" id="username1" name="username"></td>
+      <tr>
+      <td><label for="password">password:</label></td>
+      <td><input type="text" id="password1" name="password"></td>
+      </tr>
+      <tr><td></td><td><input type="button" class="button" value="SIGN IN" onclick="fnSignUP()"></td>
+      </tr>
+    </table>
+  </td>
+
+  <td>
+   <table>
+    <tr>
+    <td><label for="username2">username:</label></td>
+    <td><input type="text" id="username2" name="username2"></td>
+    <tr>
+    <td><label for="password2">password:</label></td>
+    <td><input type="text" id="password2" name="password22"></td>
+    </tr>
+    <tr><td></td><td><input type="button" class="button" value="LOG IN" onclick="fnLogin()"></td>
+    </tr>
+  </table>
+  </td>
+</tr>
+</table>
+
 </form>
 <br><br>
-<button class="button1"  onclick="incrmyvalue()">add</button> <br> <br>
-<br> <h2 id="id1">0</h2><br>
-<br><button class="button1"  onclick="getmyvalue()">get</button> <br> <br>
 
 </body>
 
@@ -120,13 +136,27 @@ MyValRef.on("value", data => {
       });
   }
 
-  function incrmyvalue(){
-    let newvalue = document.getElementById("id1").innerHTML;
-    newvalue = 1 * newvalue + 1;
+  function fnSignUP(){
+    var myuserid = document.getElementById("username1").value;
+    var mypassword = document.getElementById("password1").value;
+    
+    if (mypassword == "") {
+      alert("Password is blank");
+      return;
+    }
 
-    database.ref("/").update({
-      myvalue: newvalue
+    if (myuserid == "") {
+      alert("UserID is blank");
+      return;
+    }
+
+    myuserid = "USER:" + myuserid;
+
+    database.ref("/" + myuserid).update({
+      password : mypassword
    });
+
+   alert(myuserid + " created successfully");
   }
 </script>
 
