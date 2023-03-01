@@ -63,7 +63,7 @@
 <body bgcolor= "#ffb404">
 
 <h1>山卄卂丅丅丂匚卄卂丅 </h1>
-<h2>(V2.3)</h2>
+<h2>(V2.5)</h2>
   <h3>CREATED BY ARNAV JAIN </h3>
 
 
@@ -84,7 +84,7 @@
       </tr>
     </table>
   </td>
-    
+
   <td>
    <table>
     <tr>
@@ -100,8 +100,8 @@
   </td>
 </tr>
 </table>
-  <h3>THKS 4 USING</h3>
-<h3>note:When it says matched it may not be matched ; it is only truly matched if it says "successfully logged in"  </h3>
+
+
 
 </form>
 <br><br>
@@ -128,29 +128,34 @@ database = firebase.database();
 </script>
 
 <script>
+  var userISfound, passwordmatched;
+    
   function fnLogin(){
     var myuserid = document.getElementById("username2").value;
     var mypassword = document.getElementById("password2").value;
-    var userISfound, passwordmatched;
     var MyValRef = database.ref("/");
 
     userISfound = false;
 
     MyValRef.orderByValue().on("value", function(snapshot) {
-    snapshot.forEach(function(data) {
+      snapshot.forEach(function(data) {
       if (myuserid == data.key) {
-        userISfound = true;  
-        alert("Matched");             
+        userISfound = true;                     
       }         
       });
+
+      // if (userISfound != true) {
+      //   alert("User ID Error!!");
+      // } else {
+      //   alert("User ID Matched");
+      // }
+
+      fnCheckPassword(myuserid,mypassword);
     });
+  }
 
-    if (userISfound != true) {
-      alert("User ID Error!!");
-      return;
-    }
-
-    MyValRef = database.ref("/"+myuserid);
+  function fnCheckPassword(myuserid,mypassword){
+    var MyValRef = database.ref("/"+myuserid);
 
     passwordmatched = false;
 
@@ -161,14 +166,16 @@ database = firebase.database();
         passwordmatched = true;                
       }         
       });
+
+      if (passwordmatched != true) {
+        alert("User ID or Password is incorrect, Please retry!!");
+      }
+      else
+      window.open("myhomepage.html?"+myuserid, "_self", "");
+      sleep(300)
+        alert("You successfully logged in");
+        
     });
-
-    if (passwordmatched != true) {
-      alert("User ID or Password is incorrect, Please retry!!");
-      return;
-    }
-
-    alert("You successfully logged in");
   }
 
   function fnSignUP(){
@@ -192,7 +199,10 @@ database = firebase.database();
 
    alert("username: " + myuserid + " was created successfully, thank you " + myuserid);
   }
+
+
 </script>
+
 
 
 </html>
