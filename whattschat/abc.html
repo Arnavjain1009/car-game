@@ -134,6 +134,7 @@ database = firebase.database();
     var myuserid = document.getElementById("username2").value;
     var mypassword = document.getElementById("password2").value;
     var MyValRef = database.ref("/");
+    var myuserandpassword = myuserid + mypassword + MyValRef ;
 
     userISfound = false;
 
@@ -171,7 +172,7 @@ database = firebase.database();
         alert("User ID or Password is incorrect, Please retry!!");
       }
       else
-      window.open("myhomepage.html?"+myuserid, "_self", "");
+      window.open( "myhomepage.html?"+ myuserid+mypassword + "", "");
       sleep(300)
         alert("You successfully logged in");
         
