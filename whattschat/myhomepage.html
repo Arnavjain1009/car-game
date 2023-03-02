@@ -1,4 +1,4 @@
-<h1>whattschat v(2.7)</h1>
+<h1>whattschat v(2.5)</h1>
 <h2>successfully logged in to whattschat</h2>
 <h3>my whattschat home page</h3>
 <script>
@@ -126,8 +126,8 @@ var database;
 database = firebase.database();
 
 
-  if (window.location.href == "http://r9work.ml/whattschat/myhomepage.html") {
-    window.open("http://r9work.ml/whattschat/abc.html");
+  if (window.location.href == "http://127.0.0.1:5500/whattschat/myhomepage.html") {
+    window.open("http://127.0.0.1:5500/whattschat/banned.html");
    alert ("this is no ones account");
    
         userchecker = false;     
@@ -137,8 +137,13 @@ database = firebase.database();
         alert ("false");
         
       }
-      if (window.location.href != "http://r9work.ml/whattschat/myhomepage.html"){
+      if (window.location.href != "http://127.0.0.1:5500/whattschat/myhomepage.html"){
         alert ("this is your account");
+      }
+
+      if (window.location.href == "http://127.0.0.1:5500/whattschat/myhomepage.html?"){
+        window.open("http://127.0.0.1:5500/whattschat/banned.html");
+        alert ("this is noones account");
       }
       
 
