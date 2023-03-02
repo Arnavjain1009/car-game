@@ -1,4 +1,4 @@
-<h1>whattschat v(2.5)</h1>
+<h1>whattschat v(2.8)</h1>
 <h2>successfully logged in to whattschat</h2>
 <h3>my whattschat home page</h3>
 <script>
@@ -125,9 +125,13 @@ firebase.initializeApp(firebaseConfig);
 var database;
 database = firebase.database();
 
+var url_string = window.location.href; // www.test.com?filename=test
+    var url = new URL(url_string);
+    var paramValue = url.searchParams.get("userid");
+    alert(paramValue)
 
   if (window.location.href == "http://127.0.0.1:5500/whattschat/myhomepage.html") {
-    window.open("http://127.0.0.1:5500/whattschat/banned.html");
+    window.open("banned.html" ,"_self");
    alert ("this is no ones account");
    
         userchecker = false;     
