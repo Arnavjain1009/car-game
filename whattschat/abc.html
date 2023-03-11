@@ -123,7 +123,7 @@ database = firebase.database();
 
 <script>
   var userISfound, passwordmatched;
-    
+  var useridpassed = "NONE";
   function fnLogin(){
 
     var myuserid = document.getElementById("username2").value;
@@ -132,6 +132,14 @@ database = firebase.database();
     var myuserandpassword = myuserid + mypassword + MyValRef ;
 
     if (document.getElementById("loginbtn").value == "Proceed to Whatschatt") {
+      
+      if (useridpassed != myuserid) {
+        
+        window.open( "banned.html");
+        
+        return;
+      }
+
       MyValRef = database.ref("/" + myuserid);
       var myUUID = CreateUUID();
       MyValRef.update({
@@ -168,15 +176,14 @@ database = firebase.database();
   function fnCheckPassword(myuserid,mypassword){
     var MyValRef = database.ref("/"+myuserid);
 
-    passwordmatched = false;
-
-    
+    passwordmatched = false;    
 
     MyValRef.orderByValue().on("value", function(snapshot) {
     snapshot.forEach(function(data) {
       console.log(data.val());
       if (mypassword == data.val()) {
-        passwordmatched = true;                
+        passwordmatched = true; 
+        useridpassed = myuserid;           
       }         
       });
 

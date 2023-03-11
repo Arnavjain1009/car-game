@@ -68,6 +68,18 @@
 <h3>my whattschat home page</h3>
 <p id="demo">PLACEHOLDER</p>
 
+<form>
+  <label for="cars">Choose a car:</label>
+  <select name="cars" id="cars">
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    <option value="opel">Opel</option>
+    <option value="audi">Audi</option>
+  </select>
+  <br><br>
+  <input type="submit" value="Submit">
+</form>
+
 </body>
 
 
@@ -91,8 +103,34 @@
   var url = new URL(url_string);
   var myuserid = url.searchParams.get("userid");
   var mysecretkey = url.searchParams.get("secretkey");
+  var passwordmatched = false;
 
   document.getElementById("demo").innerHTML = "Welcome " + myuserid;
+
+  //now connect to database and link to user; fetch secret key for given userid
+  MyValRef = database.ref("/" + myuserid);
+
+  MyValRef.orderByValue().on("value", function(snapshot) {
+    snapshot.forEach(function(data) {
+      
+       //now compare database s key with mysecret
+      if (mysecretkey == data.val()) {
+        passwordmatched = true;                
+      }         
+      });
+
+      if (passwordmatched != true) {
+        window.open( "banned.html");
+      }
+      else {
+        alert(passwordmatched);
+        MyValRef.off();
+        
+      }         
+  });
+
+ 
+
 
 </script>
 
