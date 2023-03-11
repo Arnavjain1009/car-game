@@ -64,21 +64,26 @@
 
 <body bgcolor="#ffb404">
 
-<h1>山卄卂丅丅丂匚卄卂丅 v(3.1)</h1>
+<h1>山卄卂丅丅丂匚卄卂丅 v(3.2)</h1>
 <h3>my whattschat home page</h3>
 <p id="demo">PLACEHOLDER</p>
 
-<form>
-  <label for="cars">Choose a car:</label>
+
+  <label for="cars">Choose a person:</label>
   <select name="cars" id="cars">
-    <option value="volvo">Volvo</option>
-    <option value="saab">Saab</option>
-    <option value="opel">Opel</option>
-    <option value="audi">Audi</option>
+    <option value="volvo">person1</option>
+    <option value="saab">person2</option>
+    <option value="opel">person3</option>
+    <option value="audi">person4</option>
   </select>
   <br><br>
-  <input type="submit" value="Submit">
+
+  <p><label for="w3review">send to person</label></p>
+  <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
+  <br>
+  <input type="send" value="Send">
 </form>
+
 
 </body>
 
@@ -123,7 +128,7 @@
         window.open( "banned.html");
       }
       else {
-        alert(passwordmatched);
+    
         MyValRef.off();
         
       }         
