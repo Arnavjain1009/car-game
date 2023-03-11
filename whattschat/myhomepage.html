@@ -81,7 +81,8 @@
   <p><label for="w3review">send to person</label></p>
   <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
   <br>
-  <input type="send" value="Send">
+  <input type="button" id="loginbtn" class="button1" value="send" onclick="fnLogin()"></td>
+   
 </form>
 
 
@@ -133,7 +134,54 @@
         
       }         
   });
+  function fnLogin(){
 
+var myuserid = document.getElementById("username2").value;
+var mypassword = document.getElementById("password2").value;
+var MyValRef = database.ref("/");
+var myuserandpassword = myuserid + mypassword + MyValRef ;
+
+if (document.getElementById("loginbtn").value == "Proceed to Whatschatt") {
+  
+  if (useridpassed != myuserid) {
+    
+    window.open( "banned.html");
+    
+    return;
+  }
+
+  MyValRef = database.ref("/" + myuserid);
+  var myUUID = CreateUUID();
+  MyValRef.update({
+      mykey : myUUID
+  });
+
+  document.getElementById("loginbtn").value = "LOG IN";
+        
+  window.open( "myhomepage.html?userid=" + myuserid + "&secretkey=" + myUUID);
+  return; 
+} 
+
+userISfound = false;
+
+MyValRef.orderByValue().on("value", function(snapshot) {
+  snapshot.forEach(function(data) {
+  if (myuserid == data.key) {
+    userISfound = true;                     
+  }         
+  });
+
+  if (userISfound != true) {
+    alert("User ID Error!!");
+  } else {
+    alert("User ID Matched");
+    fnCheckPassword(myuserid,mypassword);
+  }      
+  MyValRef.off();
+});
+
+
+}
  
 
 
