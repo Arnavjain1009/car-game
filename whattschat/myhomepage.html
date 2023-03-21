@@ -64,10 +64,10 @@
 
 <body bgcolor="#ffb404">
 
-<h1>山卄卂丅丅丂匚卄卂丅 v(3.2)</h1>
+<h1>山卄卂丅丅丂匚卄卂丅 v(3.3)</h1>
 <h3>my whattschat home page</h3>
 <p id="demo">PLACEHOLDER</p>
-<button class="button1"  onclick="document.location='/privatechat.html?userid='"+myuserid>pchat</button>
+
 
 
   <label for="cars">Choose a person:</label>
@@ -83,7 +83,8 @@
   <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
   <br>
   <input type="button" id="loginbtn" class="button1" value="send" onclick="fnLogin()"></td>
-   
+  
+  <button class="button1" id="pcbtn" onclick="document.location='/privatechat.html?userid=hello'">pchat</button>
 </form>
 
 
@@ -111,7 +112,7 @@
   var myuserid = url.searchParams.get("userid");
   var mysecretkey = url.searchParams.get("secretkey");
   var passwordmatched = false;
-
+  document.getElementById("pcbtn").setAttribute('onclick',"document.location='/privatechat.html?userid="+myuserid+"&secretkey="+mysecretkey+"'");
   document.getElementById("demo").innerHTML = "Welcome " + myuserid;
 
   //now connect to database and link to user; fetch secret key for given userid
@@ -188,7 +189,7 @@ MyValRef.orderByValue().on("value", function(snapshot) {
 
 </script>
 
-<button class="button1"  onclick="document.location='/privatechat.html?userid='"+myuserid>pchat</button>
+
 </html>
 
  
