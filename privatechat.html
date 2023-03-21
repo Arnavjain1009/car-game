@@ -2,17 +2,42 @@
 <h1>山卄卂丅丅丂匚卄卂丅 v(3.3)</h1>
 <html>
 <head>
-    <title>Firebase Chat</title>
+  <h6 id="current-time"></h6>
+  <meta charset="UTF-8">
+    <title>group Chat</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
-<body>
-    <h1>Firebase Chat</h1>
+<body bgcolor= "#ffb404">
+    <h1>group chat</h1>
     <div id="messages"></div>
     <input type="text" id="message-input">
     <button id="send-button">Send</button>
     
     <script>
+
+var currentTime = new Date();
+
+      var hours = currentTime.getHours();
+      var minutes = currentTime.getMinutes();
+      var seconds = currentTime.getSeconds();
+      var time = hours,minutes,seconds;
+
+      // Add leading zeros if necessary
+      if (hours < 10) {
+        hours = "0" + hours;
+      }
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+
+      var timeString ='  '+ hours + ':' + minutes + ':' + seconds;
+      document.getElementById("current-time").innerHTML = timeString;
+
+      
         // Initialize Firebase
         var firebaseConfig = {
           apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
@@ -39,7 +64,7 @@
         // Add an event listener to the send button
         sendButton.addEventListener("click", function() {
             // Get the current user's ID (you will need to implement your own authentication method)
-            var userId = "USER_ID";
+            var userId = "USER_ID"+timeString;
             
             // Get the message text from the input field
             var messageText = messageInput.value;
