@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<h1>山卄卂丅丅丂匚卄卂丅 v(3.3)</h1>
+<h1>山卄卂丅丅丂匚卄卂丅 v(3.4)</h1>
 <html>
 <head>
-  <h6 id="current-time"></h6>
+  <p id="current-time"></p>
   <meta charset="UTF-8">
     <title>group Chat</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -16,26 +16,7 @@
     
     <script>
 
-var currentTime = new Date();
 
-      var hours = currentTime.getHours();
-      var minutes = currentTime.getMinutes();
-      var seconds = currentTime.getSeconds();
-      var time = hours,minutes,seconds;
-
-      // Add leading zeros if necessary
-      if (hours < 10) {
-        hours = "0" + hours;
-      }
-      if (minutes < 10) {
-        minutes = "0" + minutes;
-      }
-      if (seconds < 10) {
-        seconds = "0" + seconds;
-      }
-
-      var timeString ='  '+ hours + ':' + minutes + ':' + seconds;
-      document.getElementById("current-time").innerHTML = timeString;
 
       
         // Initialize Firebase
@@ -52,8 +33,11 @@ var currentTime = new Date();
         firebase.initializeApp(firebaseConfig);
         
         // Get a reference to the database service
-        var database = firebase.database();
-        
+        var database = firebase.database();       
+        var url_string = window.location.href; // www.test.com?filename=test
+          var url = new URL(url_string);
+         var myuserid = url.searchParams.get("userid");
+          var mysecretkey = url.searchParams.get("secretkey");
         // Get references to the input and send button
         var messageInput = document.getElementById("message-input");
         var sendButton = document.getElementById("send-button");
@@ -64,7 +48,7 @@ var currentTime = new Date();
         // Add an event listener to the send button
         sendButton.addEventListener("click", function() {
             // Get the current user's ID (you will need to implement your own authentication method)
-            var userId = "USER_ID"+timeString;
+            var userId = myuserid;
             
             // Get the message text from the input field
             var messageText = messageInput.value;
@@ -93,6 +77,31 @@ var currentTime = new Date();
             // Append the element to the messages div
             messagesDiv.appendChild(messageElement);
         });
+
+
+
+
+
+        setInterval(function() {
+        var currentTime = new Date();
+        var hours = currentTime.getHours();
+        var minutes = currentTime.getMinutes();
+        var seconds = currentTime.getSeconds();
+
+        // Add leading zeros if necessary
+        if (hours < 10) {
+          hours = "0" + hours;
+        }
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+
+        var timeString = hours + ':' + minutes + ':' + seconds;
+        document.getElementById("current-time").innerHTML = timeString;
+      }, 1000); // 1000 milliseconds = 1 second
     </script>
 </body>
 </html>
