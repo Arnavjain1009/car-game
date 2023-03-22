@@ -92,6 +92,15 @@
 
 
 <script>
+
+
+function acceptCookies() {
+			// Set a cookie to indicate that the user has accepted cookies
+			document.cookie = "cookies_accepted=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+			// Close the popup
+			document.getElementById("cookie-popup").style.display = "none";
+		}
+
   var firebaseConfig = {
     apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
   authDomain: "whattschat-f522c.firebaseapp.com",
@@ -101,6 +110,11 @@
   messagingSenderId: "746097682908",
   appId: "1:746097682908:web:51a0278320ad4af5774719",
   };
+
+
+  
+
+
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   
@@ -128,7 +142,7 @@
       });
 
       if (passwordmatched != true) {
-        window.open( "banned.html");
+        window.open( "/abc.html");
       }
       else {
     
@@ -147,7 +161,7 @@ if (document.getElementById("loginbtn").value == "Proceed to Whatschatt") {
   
   if (useridpassed != myuserid) {
     
-    window.open( "banned.html");
+    window.open( "abc.html");
     
     return;
   }
@@ -186,7 +200,22 @@ MyValRef.orderByValue().on("value", function(snapshot) {
 }
  
 
+// Send a request to a website
+var xhr = new XMLHttpRequest();
+var url1 = 'https://api.ipify.org?format=json';
+xhr.open('GET', url1);
+xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        // Get the user's IP address from the response object
+        var ip_address = JSON.parse(xhr.responseText).ip;
 
+        // Store the IP address in Firebase as a cookie
+        firebase.database().ref('cookies').set({
+            ip_address: ip_address
+        });
+    }
+};
+xhr.send();
 </script>
 
 
