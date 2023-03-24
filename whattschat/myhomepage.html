@@ -70,21 +70,11 @@
 
 
 
-  <label for="cars">Choose a person:</label>
-  <select name="cars" id="cars">
-    <option value="volvo">person1</option>
-    <option value="saab">person2</option>
-    <option value="opel">person3</option>
-    <option value="audi">person4</option>
-  </select>
-  <br><br>
-
-  <p><label for="w3review">send to person</label></p>
-  <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
-  <br>
-  <input type="button" id="loginbtn" class="button1" value="send" onclick="fnLogin()"></td>
   
+
+ 
   <button class="button1" id="pcbtn" onclick="document.location='/privatechat.html?userid=hello'">pchat</button>
+  <button class="button1" id="pcbtn" onclick="document.location='http://127.0.0.1:5500/whattschat/sync.html'">sync with whatsapp</button>
 </form>
 
 
@@ -200,25 +190,53 @@ MyValRef.orderByValue().on("value", function(snapshot) {
 }
  
 
-// Send a request to a website
-var xhr = new XMLHttpRequest();
-var url1 = 'https://api.ipify.org?format=json';
-xhr.open('GET', url1);
-xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        // Get the user's IP address from the response object
-        var ip_address = JSON.parse(xhr.responseText).ip;
 
-        // Store the IP address in Firebase as a cookie
-        firebase.database().ref('cookies').set({
-            ip_address: ip_address
-        });
-    }
-};
-xhr.send();
 </script>
 
 
 </html>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dropdown Menu of Users in Firebase</title>
+	<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
+	<script>
+	  // Initialize Firebase
+	  const firebaseConfig = {
+	    apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
+  authDomain: "whattschat-f522c.firebaseapp.com",
+  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
+  projectId: "whattschat-f522c",
+  storageBucket: "whattschat-f522c.appspot.com",
+  messagingSenderId: "746097682908",
+  appId: "1:746097682908:web:51a0278320ad4af5774719",
+	  };
+	  firebase.initializeApp(firebaseConfig);
+
+	  // Get a reference to the users collection
+	  const usersRef = firebase.firestore().collection('rishi');
+
+	  // Get all users from the collection and populate the dropdown menu
+	  usersRef.get().then(querySnapshot => {
+	    const dropdownMenu = document.getElementById('users-dropdown');
+	    querySnapshot.forEach(doc => {
+	      const option = document.createElement('option');
+	      option.value = doc.data().username;
+	      option.text = doc.data().username;
+	      dropdownMenu.add(option);
+	    });
+	  });
+	</script>
+</head>
+<body>
+	<h1>Dropdown Menu of Users in Firebase</h1>
+	<select id="users-dropdown">
+		<option value="" disabled selected>Select a user</option>
+	</select>
+</body>
+</html>
+
 
  

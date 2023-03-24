@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Contacts</title>
+
+  <!-- Add Firebase JavaScript SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var firebaseConfig = {
+        apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
+  authDomain: "whattschat-f522c.firebaseapp.com",
+  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
+  projectId: "whattschat-f522c",
+  storageBucket: "whattschat-f522c.appspot.com",
+  messagingSenderId: "746097682908",
+  appId: "1:746097682908:web:51a0278320ad4af5774719",
+  measurementId: "G-5QLWYM65L1"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the contacts collection in Firebase
+    var contactsRef = firebase.firestore().collection("contacts");
+
+    // Function to display the contacts on the page
+    function displayContacts(contacts) {
+      var contactsList = document.getElementById("contactsList");
+      contactsList.innerHTML = "";
+
+      contacts.forEach(function(contact) {
+        var name = contact.name;
+        var phoneNumber = contact.phoneNumber;
+        var listItem = document.createElement("li");
+        listItem.innerHTML = "<strong>" + name + "</strong>: " + phoneNumber;
+        contactsList.appendChild(listItem);
+      });
+    }
+
+    // Function to load the contacts from Firebase
+    function loadContacts(phoneNumber) {
+      // Query the contacts collection for the specified phone number
+      contactsRef.where("phoneNumber", "==", phoneNumber)
+        .get()
+        .then(function(querySnapshot) {
+          var contacts = [];
+
+          querySnapshot.forEach(function(doc) {
+            var contact = doc.data();
+            contacts.push(contact);
+          });
+
+          // Display the contacts on the page
+          displayContacts(contacts);
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    }
+
+    // Function to handle the form submission
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      // Get the phone number from the input field
+      var phoneNumber = document.getElementById("phoneNumber").value;
+
+      // Load the contacts from Firebase
+      loadContacts(phoneNumber);
+    }
+  </script>
+</head>
+<body>
+  <h1>My Contacts</h1>
+
+  <form onsubmit="handleSubmit(event)">
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" id="phoneNumber" required>
+    <button type="submit">Load Contacts</button>
+  </form>
+
+  <ul id="contactsList"></ul>
+</body>
+</html>
