@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<h1>山卄卂丅丅丂匚卄卂丅 v(3.4)</h1>
+<html>
+<head>
+  <p id="current-time"></p>
+  <meta charset="UTF-8">
+    <title>group Chat</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body bgcolor= "#ffb404">
+    <h1>group chat</h1>
+    <div id="messages"></div>
+    <input type="text" id="message-input">
+    <button id="send-button">Send</button>
+    
+    <script>
+
+
+
+      
+        // Initialize Firebase
+        var firebaseConfig = {
+          apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
+  authDomain: "whattschat-f522c.firebaseapp.com",
+  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
+  projectId: "whattschat-f522c",
+  storageBucket: "whattschat-f522c.appspot.com",
+  messagingSenderId: "746097682908",
+  appId: "1:746097682908:web:51a0278320ad4af5774719",
+ 
+        };
+        firebase.initializeApp(firebaseConfig);
+        
+        // Get a reference to the database service
+        var database = firebase.database();       
+        var url_string = window.location.href; // www.test.com?filename=test
+          var url = new URL(url_string);
+         var myuserid = url.searchParams.get("userid");
+          var mysecretkey = url.searchParams.get("secretkey");
+        // Get references to the input and send button
+        var messageInput = document.getElementById("message-input");
+        var sendButton = document.getElementById("send-button");
+        
+        // Get a reference to the messages div
+        var messagesDiv = document.getElementById("messages");
+        
+        // Add an event listener to the send button
+        sendButton.addEventListener("click", function() {
+            // Get the current user's ID (you will need to implement your own authentication method)
+            var userId = myuserid;
+            
+            // Get the message text from the input field
+            var messageText = messageInput.value;
+            
+            // Push the message to the database
+            database.ref("messages").push({
+                userId: userId,
+                message: messageText
+            });
+            
+            // Clear the input field
+            messageInput.value = "";
+        });
+        
+        // Listen for new messages in the database
+        database.ref("messages").on("child_added", function(snapshot) {
+            // Get the message data
+            var messageData = snapshot.val();
+            
+            // Create a new message element
+            var messageElement = document.createElement("div");
+            
+            // Add the user ID and message text to the element
+            messageElement.innerHTML = "<strong>" + messageData.userId + "</strong>: " + messageData.message;
+            
+            // Append the element to the messages div
+            messagesDiv.appendChild(messageElement);
+        });
+
+
+
+
+
+        setInterval(function() {
+        var currentTime = new Date();
+        var hours = currentTime.getHours();
+        var minutes = currentTime.getMinutes();
+        var seconds = currentTime.getSeconds();
+
+        // Add leading zeros if necessary
+        if (hours < 10) {
+          hours = "0" + hours;
+        }
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+
+        var timeString = hours + ':' + minutes + ':' + seconds;
+        document.getElementById("current-time").innerHTML = timeString;
+      }, 1000); // 1000 milliseconds = 1 second
+    </script>
+</body>
+</html>
