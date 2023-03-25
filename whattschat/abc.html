@@ -6,41 +6,7 @@
 
   
 <style>
-  .cookie-popup {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f8f8f8;
-  padding: 10px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
-}
-
-.cookie-popup p {
-  margin: 0;
-}
-
-.cookie-popup a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.close-btn {
-  background-color: #007bff;
-  border: none;
-  color: #fff;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  float: right;
-  margin-top: 5px;
-}
-
-
-
+  
   .customInput {
   width:200px;
   height:30px;
@@ -97,8 +63,8 @@
 <body bgcolor= "#ffb404">
 
 <h1>山卄卂丅丅丂匚卄卂丅 </h1>
-<h2>(V3.5)</h2>
-  <h3>CREATED BY ARNAV JAIN , this site uses cookies</h3>
+<h2>(V3.4)</h2>
+  <h3>CREATED BY ARNAV JAIN </h3>
 
   <table>
   <tr>
@@ -137,26 +103,14 @@
 </body>
 
 <script>
-  function closePopup() {
-  document.querySelector('.cookie-popup').style.display = 'none';
-}
-
-window.onload = function() {
-  if (localStorage.getItem('cookieSeen') != 'shown') {
-    document.querySelector('.cookie-popup').style.display = 'block';
-    localStorage.setItem('cookieSeen', 'shown');
-  }
-}
-
   var firebaseConfig = {
-    apiKey: "AIzaSyC7B7bFnaLRmBEV21GelG1WegaZdwStFUk",
-  authDomain: "whattschatt.firebaseapp.com",
-  databaseURL: "https://whattschatt-default-rtdb.firebaseio.com",
-  projectId: "whattschatt",
-  storageBucket: "whattschatt.appspot.com",
-  messagingSenderId: "642166844125",
-  appId: "1:642166844125:web:f08eac1c5bab889730c934",
-  measurementId: "G-7EWL7J87S7"
+    apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
+  authDomain: "whattschat-f522c.firebaseapp.com",
+  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
+  projectId: "whattschat-f522c",
+  storageBucket: "whattschat-f522c.appspot.com",
+  messagingSenderId: "746097682908",
+  appId: "1:746097682908:web:51a0278320ad4af5774719",
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -164,10 +118,6 @@ firebase.initializeApp(firebaseConfig);
 var database;
 database = firebase.database();
 
-<div class="cookie-popup">
-  <p>This website uses cookies to ensure you get the best experience on our website. <a href="#">Learn more</a></p>
-  <button class="close-btn" onclick="closePopup()">Got it</button>
-</div>
 
 </script>
 
@@ -185,7 +135,7 @@ database = firebase.database();
       
       if (useridpassed != myuserid) {
         
-        window.open( "/abc.html");
+        window.open( "banned.html");
         
         return;
       }
