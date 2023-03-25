@@ -119,9 +119,12 @@ function acceptCookies() {
   var passwordmatched = false;
   document.getElementById("pcbtn").setAttribute('onclick',"document.location='/privatechat.html?userid="+myuserid+"&secretkey="+mysecretkey+"'");
   document.getElementById("demo").innerHTML = "Welcome " + myuserid;
-
+  if (myuserid == null || myuserid == "") {
+        window.location.replace( "/abc.html");
+      }
   //now connect to database and link to user; fetch secret key for given userid
   MyValRef = database.ref("/" + myuserid);
+
 
   MyValRef.orderByValue().on("value", function(snapshot) {
     snapshot.forEach(function(data) {
@@ -133,7 +136,7 @@ function acceptCookies() {
       });
 
       if (passwordmatched != true) {
-        window.open( "/abc.html");
+        window.location.replace( "/abc.html");
       }
       else {
     
