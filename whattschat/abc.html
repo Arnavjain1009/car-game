@@ -63,7 +63,7 @@
 <body bgcolor= "#ffb404">
 
 <h1>山卄卂丅丅丂匚卄卂丅 </h1>
-<h2>(V3.4)</h2>
+<h2>(V3.5)</h2>
   <h3>CREATED BY ARNAV JAIN </h3>
 
   <table>
@@ -129,7 +129,7 @@ database = firebase.database();
     var myuserid = document.getElementById("username2").value;
     var mypassword = document.getElementById("password2").value;
     
-    var MyValRef = database.ref("/users");
+    var MyValRef = database.ref("/users/");
 
     if (document.getElementById("loginbtn").value == "Proceed to Whatschatt") {
       
@@ -156,7 +156,8 @@ database = firebase.database();
 
     MyValRef.orderByValue().on("value", function(snapshot) {
       snapshot.forEach(function(data) {
-      if (myuserid == data.key) {
+        if (myuserid == data.key) {
+        
         userISfound = true;                     
       }         
       });
