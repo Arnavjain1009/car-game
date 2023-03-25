@@ -42,7 +42,7 @@
         var passwordmatched = false;
       
         //now connect to database and link to user; fetch secret key for given userid
-        MyValRef = database.ref("/" + myuserid);
+        MyValRef = database.ref("/users/" + myuserid);
 
         MyValRef.orderByValue().on("value", function(snapshot) {
           snapshot.forEach(function(data) {

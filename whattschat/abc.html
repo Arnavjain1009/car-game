@@ -128,19 +128,19 @@ database = firebase.database();
 
     var myuserid = document.getElementById("username2").value;
     var mypassword = document.getElementById("password2").value;
-    var MyValRef = database.ref("/");
-    var myuserandpassword = myuserid + mypassword + MyValRef ;
+    
+    var MyValRef = database.ref("/users");
 
     if (document.getElementById("loginbtn").value == "Proceed to Whatschatt") {
       
       if (useridpassed != myuserid) {
         
-        window.open( "banned.html");
+        window.location.replace( "banned.html");
         
         return;
       }
-
-      MyValRef = database.ref("/" + myuserid);
+     
+      MyValRef = database.ref("/users/" + myuserid);
       var myUUID = CreateUUID();
       MyValRef.update({
           mykey : myUUID
@@ -174,7 +174,7 @@ database = firebase.database();
   }
 
   function fnCheckPassword(myuserid,mypassword){
-    var MyValRef = database.ref("/"+myuserid);
+    var MyValRef = database.ref("/users/"+myuserid);
 
     passwordmatched = false;    
 
@@ -212,11 +212,11 @@ database = firebase.database();
       return;
     } 
 
-    database.ref("/" + myuserid).update({
+    database.ref("/users/" + myuserid).update({
       password : mypassword
     });
 
-    database.ref("/" + myuserid).off();
+    database.ref("/users/" + myuserid).off();
 
     alert("username: " + myuserid + " was created successfully, thank you " + myuserid);
 

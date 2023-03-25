@@ -123,7 +123,7 @@ function acceptCookies() {
         window.location.replace( "/abc.html");
       }
   //now connect to database and link to user; fetch secret key for given userid
-  MyValRef = database.ref("/" + myuserid);
+  MyValRef = database.ref("/users/" + myuserid);
 
 
   MyValRef.orderByValue().on("value", function(snapshot) {
@@ -144,58 +144,21 @@ function acceptCookies() {
         
       }         
   });
-  function fnLogin(){
 
-var myuserid = document.getElementById("username2").value;
-var mypassword = document.getElementById("password2").value;
-var MyValRef = database.ref("/");
-var myuserandpassword = myuserid + mypassword + MyValRef ;
+  //now connect to database and link to user; fetch secret key for given userid
+  MyValRef = database.ref("/users");
 
-if (document.getElementById("loginbtn").value == "Proceed to Whatschatt") {
-  
-  if (useridpassed != myuserid) {
-    
-    window.open( "abc.html");
-    
-    return;
-  }
+  MyValRef.orderByValue().on("value", function(snapshot) {
+    snapshot.forEach(function(data) {
+      
+      //console.log(data.val());
 
-  MyValRef = database.ref("/" + myuserid);
-  var myUUID = CreateUUID();
-  MyValRef.update({
-      mykey : myUUID
+    });
+    MyValRef.off();
   });
 
-  document.getElementById("loginbtn").value = "LOG IN";
-        
-  window.open( "myhomepage.html?userid=" + myuserid + "&secretkey=" + myUUID);
-  return; 
-} 
 
-userISfound = false;
-
-MyValRef.orderByValue().on("value", function(snapshot) {
-  snapshot.forEach(function(data) {
-  if (myuserid == data.key) {
-    userISfound = true;                     
-  }         
-  });
-
-  if (userISfound != true) {
-    alert("User ID Error!!");
-  } else {
-    alert("User ID Matched");
-    fnCheckPassword(myuserid,mypassword);
-  }      
-  MyValRef.off();
-});
-
-
-}
- 
-
-
-</script>
+  </script>
 
 
 </html>
@@ -235,9 +198,54 @@ MyValRef.orderByValue().on("value", function(snapshot) {
 	</script>
 </head>
 <body>
+
+
+
+
+
+
+
 	<h1>Dropdown Menu of Users in Firebase</h1>
-	<select id="users-dropdown">
-		<option value="" disabled selected>Select a user</option>
+	<!-- HTML code for the dropdown list -->
+<select id="user-dropdown">
+  <option value="">Select a user</option>
+
+  <script>var firebaseConfig = {
+    apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
+  authDomain: "whattschat-f522c.firebaseapp.com",
+  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
+  projectId: "whattschat-f522c",
+  storageBucket: "whattschat-f522c.appspot.com",
+  messagingSenderId: "746097682908",
+  appId: "1:746097682908:web:51a0278320ad4af5774719",
+    
+  };
+  firebase.initializeApp(firebaseConfig);
+  
+  // Get a reference to the Firebase database
+  var database = firebase.database();
+  
+  // Get a reference to the user dropdown element
+  var userDropdown = document.getElementById("user-dropdown");
+  
+  // Fetch the user IDs from Firebase and populate the dropdown list
+  database.ref("users").once("value", function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      var userId = childSnapshot.key;
+      var option = document.createElement("option");
+      option.value = userId;
+      option.text = userId;
+      userDropdown.appendChild(option);
+    });
+  });</script>
+
+
+
+
+
+
+
+</select>
 	</select>
 </body>
 </html>
