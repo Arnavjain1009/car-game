@@ -129,9 +129,9 @@
   // Function to redirect to private chat with selected user
   function redirectToPrivateChat() {
     var selectedUserId = document.getElementById("user-dropdown").value;
-    if (selectedUserId !== "") {
-      window.location.href = "/privatechat.html?userid="+myuserid+"&secretkey="+mysecretkey+"&selecteduserid=" + selectedUserId;
-    }
+    
+      window.location.href = "/publicchat.html?userid="+myuserid+"&secretkey="+mysecretkey+"&selecteduserid=" + selectedUserId;
+    
   }
   function chat(){
   if (cookie != true){
@@ -195,7 +195,7 @@ database = firebase.database();
   var myuserid = url.searchParams.get("userid");
   var mysecretkey = url.searchParams.get("secretkey");
   var passwordmatched = false;
-  document.getElementById("pcbtn").setAttribute('onclick',"document.location='/privatechat.html?userid="+myuserid+"&secretkey="+mysecretkey+"'");
+  document.getElementById("pcbtn").setAttribute('onclick',"document.location='/publicchat.html?userid="+myuserid+"&secretkey="+mysecretkey+"'");
   document.getElementById("demo").innerHTML = "Welcome " + myuserid;
 
   
