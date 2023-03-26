@@ -38,6 +38,7 @@
         var url = new URL(url_string);
         var myuserid = url.searchParams.get("userid");
         var mysecretkey = url.searchParams.get("secretkey");
+        var selecteduserid = url.searchParams.get("selecteduserid");
         
         var passwordmatched = false;
       
@@ -81,6 +82,7 @@
 
             // Push the message to the database
             database.ref("messages").push({
+              selecteduserid:selecteduserid,
                 userId: userId,
                 message: messageText,
                 messageDate: MsgFullDate,
@@ -98,12 +100,16 @@
             
             // Create a new message element
             var messageElement = document.createElement("div");
+            if (messageData.selecteduserid == null){
+
+
             
             // Add the user ID and message text to the element
             messageElement.innerHTML = "<strong>" + messageData.userId + "</strong>: <small>(" + messageData.messageTime + ")</small> :" + messageData.message;
             
             // Append the element to the messages div
             messagesDiv.appendChild(messageElement);
+            }
         });
 
         setInterval(function() {
