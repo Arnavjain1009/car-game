@@ -1,10 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+.container {
+			border: 10px solid black;
+			padding: 20px;
+			display: inline-block;
+		}
+  </style>
+
+  <title>Confirm Dialog Example</title>
 <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-database.js"></script>
 
 
+<div class="container">
+<h1>this website uses cookies</h1>
+	<button onclick="hideMessage()">accept</button>
+	<button onclick="redirectToPage()">reject and leave</button>
+</div>
+
+
+
+  <script>
+		function hideMessage() {
+    // This function will hide the message when "Yes" is clicked
+    document.querySelector("h1").style.display = "none";
+    document.querySelector("button:nth-of-type(1)").style.display = "none";
+    document.querySelector("button:nth-of-type(2)").style.display = "none";
+    document.querySelector(".container").style.display = "none";
+
+    // Save the user's IP address to Firebase
+    var ipAddress = '';
+    fetch('https://api.ipify.org/?format=json')
+        .then(response => response.json())
+        .then(data => ipAddress = data.ip)
+        .then(() => {
+            firebase.database().ref('cookies').push({
+                ipAddress: ipAddress
+            });
+        })
+        .catch(error => console.error(error));
+}
+
+		function redirectToPage() {
+			// This function will redirect to a different page when "No" is clicked
+			window.location.href = "/whattschat/abc.html";
+		}
+    
+    </script>
 <style>
   
   .customInput {
