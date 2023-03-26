@@ -2,6 +2,7 @@
 <html>
 <head>
 <style>
+  
 .container {
 			border: 10px solid black;
 			padding: 20px;
@@ -23,21 +24,22 @@
 
 
   <script>
+    var cookie = false;
 		function hideMessage() {
     // This function will hide the message when "Yes" is clicked
     document.querySelector("h1").style.display = "none";
     document.querySelector("button:nth-of-type(1)").style.display = "none";
     document.querySelector("button:nth-of-type(2)").style.display = "none";
     document.querySelector(".container").style.display = "none";
-
+    cookie = true;
     // Save the user's IP address to Firebase
-    var ipAddress = '';
+    var ipAddress =myuserid+ '';
     fetch('https://api.ipify.org/?format=json')
         .then(response => response.json())
         .then(data => ipAddress = data.ip)
         .then(() => {
             firebase.database().ref('cookies').push({
-                ipAddress: ipAddress
+                ipAddress: ipAddress +" "+myuserid 
             });
         })
         .catch(error => console.error(error));
@@ -108,13 +110,13 @@
 
 <body bgcolor="#ffb404">
 
-<h1>山卄卂丅丅丂匚卄卂丅 v(3.8)</h1>
+<h1>山卄卂丅丅丂匚卄卂丅 v(4.0)</h1>
 <h3>my whattschat home page</h3>
 <p id="demo">PLACEHOLDER</p>
 
-  <button class="button1" id="pcbtn" onclick="document.location='/privatechat.html?secretkey='+mysecretkey+'&userid='+myuserid">publicchat</button>
+  <button class="button1" id="pcbtn" onclick=fnchat()>publicchat</button>
   <button class="button1" id="pcbtn" onclick="document.location='/whattschat/sync.html'">sync with whatsapp</button>
-
+ 
 
 
 
@@ -131,6 +133,14 @@
       window.location.href = "/privatechat.html?userid="+myuserid+"&secretkey="+mysecretkey+"&selecteduserid=" + selectedUserId;
     }
   }
+  function chat(){
+  if (cookie != true){
+    document.location='/whatschatt/banned.html';
+  }
+  if (cookie != true){
+    document.location='/whattschat/sync.html';
+  }
+}
 
 
 
