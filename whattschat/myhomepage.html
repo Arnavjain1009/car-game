@@ -112,12 +112,45 @@
 <h3>my whattschat home page</h3>
 <p id="demo">PLACEHOLDER</p>
 
-  <button class="button1" id="pcbtn" onclick="document.location='/privatechat.html?userid=hello'">pchat</button>
+  <button class="button1" id="pcbtn" onclick="document.location='/privatechat.html?secretkey='+mysecretkey+'&userid='+myuserid">publicchat</button>
   <button class="button1" id="pcbtn" onclick="document.location='/whattschat/sync.html'">sync with whatsapp</button>
 
+
+
+
+
   <h1>Dropdown Menu of Users</h1>
-	<!-- HTML code for the dropdown list -->
-<select id="user-dropdown" name="year"></select>
+<!-- HTML code for the dropdown list -->
+<select id="user-dropdown" name="year" onchange="redirectToPrivateChat()"></select>
+
+<script>
+  // Function to redirect to private chat with selected user
+  function redirectToPrivateChat() {
+    var selectedUserId = document.getElementById("user-dropdown").value;
+    if (selectedUserId !== "") {
+      window.location.href = "/privatechat.html?userid="+myuserid+"&secretkey="+mysecretkey+"&selecteduserid=" + selectedUserId;
+    }
+  }
+
+
+
+
+
+
+  // Populate the user dropdown list
+  var userDropdown = document.getElementById("user-dropdown");
+  var usersRef = database.ref("users");
+  usersRef.on("value", function (snapshot) {
+    snapshot.forEach(function (childSnapshot) {
+      var userId = childSnapshot.key;
+      var option = document.createElement("option");
+      option.value = userId;
+      option.text = userId;
+      userDropdown.add(option);
+    });
+  });
+</script>
+
 </body>
 
 

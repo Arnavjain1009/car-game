@@ -2,86 +2,53 @@
 <html>
 <head>
   <title>My Contacts, in development</title>
-<bodybgcolor= "#ffb404">
-  <!-- Add Firebase JavaScript SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
-
+<body bgcolor="#ffb404">
+  <script src="path/to/library.js"></script>
+  <script src="path/to/library.js" onload="init()"></script>
   <script>
-    // Initialize Firebase
-    var firebaseConfig = {
-        apiKey: "AIzaSyC7B7bFnaLRmBEV21GelG1WegaZdwStFUk",
-  authDomain: "whattschatt.firebaseapp.com",
-  databaseURL: "https://whattschatt-default-rtdb.firebaseio.com",
-  projectId: "whattschatt",
-  storageBucket: "whattschatt.appspot.com",
-  messagingSenderId: "642166844125",
-  appId: "1:642166844125:web:f08eac1c5bab889730c934",
-  measurementId: "G-7EWL7J87S7"
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    // Get a reference to the contacts collection in Firebase
-    var contactsRef = firebase.firestore().collection("contacts");
-
-    // Function to display the contacts on the page
-    function displayContacts(contacts) {
-      var contactsList = document.getElementById("contactsList");
-      contactsList.innerHTML = "";
-
-      contacts.forEach(function(contact) {
-        var name = contact.name;
-        var phoneNumber = contact.phoneNumber;
-        var listItem = document.createElement("li");
-        listItem.innerHTML = "<strong>" + name + "</strong>: " + phoneNumber;
-        contactsList.appendChild(listItem);
-      });
+    function init() {
+      // Code that uses the Client object goes here
     }
-
-    // Function to load the contacts from Firebase
-    function loadContacts(phoneNumber) {
-      // Query the contacts collection for the specified phone number
-      contactsRef.where("phoneNumber", "==", phoneNumber)
-        .get()
-        .then(function(querySnapshot) {
-          var contacts = [];
-
-          querySnapshot.forEach(function(doc) {
-            var contact = doc.data();
-            contacts.push(contact);
-          });
-
-          // Display the contacts on the page
-          displayContacts(contacts);
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
-    }
-
-    // Function to handle the form submission
-    function handleSubmit(event) {
-      event.preventDefault();
-
-      // Get the phone number from the input field
-      var phoneNumber = document.getElementById("phoneNumber").value;
-
-      // Load the contacts from Firebase
-      loadContacts(phoneNumber);
-    }
+  </script>
+  
   </script>
 </head>
 <body>
-  <h1>My Contacts</h1>
+  <!-- Add the WhatsApp Web API -->
+<script src="https://whatsapp-web.js.org/"></script>
 
-  <form onsubmit="handleSubmit(event)">
-    <label for="phoneNumber">Phone Number:</label>
-    <input type="text" id="phoneNumber" required>
-    <button type="submit">Load Contacts</button>
-  </form>
+<!-- Generate the QR code -->
+<script>
+const client = new window['whatsapp-web.js'].Client();
+client.on('qr', (qr) => {
+  // Display the QR code on the webpage
+  const qrCode = document.getElementById('qrCode');
+  qrCode.setAttribute('src', qr);
+});
 
+client.initialize();
+</script>
+
+<!-- Display the QR code on the webpage -->
+<img id="qrCode" alt="QR code" />
+<!-- Get the contacts from WhatsApp Web -->
+<script>
+  client.getContacts().then((contacts) => {
+    // Display the contacts on the webpage
+    const contactsList = document.getElementById('contactsList');
+    contacts.forEach((contact) => {
+      const listItem = document.createElement('li');
+      listItem.innerText = `${contact.name} (${contact.number})`;
+      contactsList.appendChild(listItem);
+    });
+  });
+  </script>
+  
+  <!-- Display the contacts on the webpage -->
   <ul id="contactsList"></ul>
-</body>
+  
+  
+
+  
 </body>
 </html>
