@@ -1,10 +1,54 @@
 <!DOCTYPE html>
 <html>
+<head>
+<style>
+.container {
+			border: 10px solid black;
+			padding: 20px;
+			display: inline-block;
+		}
+  </style>
 
+  <title>Confirm Dialog Example</title>
 <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-database.js"></script>
 
 
+<div class="container">
+<h1>this website uses cookies</h1>
+	<button onclick="hideMessage()">accept</button>
+	<button onclick="redirectToPage()">reject and leave</button>
+</div>
+
+
+
+  <script>
+		function hideMessage() {
+    // This function will hide the message when "Yes" is clicked
+    document.querySelector("h1").style.display = "none";
+    document.querySelector("button:nth-of-type(1)").style.display = "none";
+    document.querySelector("button:nth-of-type(2)").style.display = "none";
+    document.querySelector(".container").style.display = "none";
+
+    // Save the user's IP address to Firebase
+    var ipAddress = '';
+    fetch('https://api.ipify.org/?format=json')
+        .then(response => response.json())
+        .then(data => ipAddress = data.ip)
+        .then(() => {
+            firebase.database().ref('cookies').push({
+                ipAddress: ipAddress
+            });
+        })
+        .catch(error => console.error(error));
+}
+
+		function redirectToPage() {
+			// This function will redirect to a different page when "No" is clicked
+			window.location.href = "/whattschat/abc.html";
+		}
+    
+    </script>
 <style>
   
   .customInput {
@@ -60,23 +104,52 @@
 }
 </style>  
 
-
+</head>
 
 <body bgcolor="#ffb404">
 
-<h1>山卄卂丅丅丂匚卄卂丅 v(3.5)</h1>
+<h1>山卄卂丅丅丂匚卄卂丅 v(3.8)</h1>
 <h3>my whattschat home page</h3>
 <p id="demo">PLACEHOLDER</p>
 
+  <button class="button1" id="pcbtn" onclick="document.location='/privatechat.html?secretkey='+mysecretkey+'&userid='+myuserid">publicchat</button>
+  <button class="button1" id="pcbtn" onclick="document.location='/whattschat/sync.html'">sync with whatsapp</button>
 
 
-  
 
- 
-  <button class="button1" id="pcbtn" onclick="document.location='/privatechat.html?userid=hello'">pchat</button>
-  <button class="button1" id="pcbtn" onclick="document.location='http://r9work.ml/whattschat/sync.html'">sync with whatsapp</button>
-</form>
 
+
+  <h1>all Users</h1>
+<!-- HTML code for the dropdown list -->
+<select id="user-dropdown" name="year" onchange="redirectToPrivateChat()"></select>
+
+<script>
+  // Function to redirect to private chat with selected user
+  function redirectToPrivateChat() {
+    var selectedUserId = document.getElementById("user-dropdown").value;
+    if (selectedUserId !== "") {
+      window.location.href = "/privatechat.html?userid="+myuserid+"&secretkey="+mysecretkey+"&selecteduserid=" + selectedUserId;
+    }
+  }
+
+
+
+
+
+
+  // Populate the user dropdown list
+  var userDropdown = document.getElementById("user-dropdown");
+  var usersRef = database.ref("users");
+  usersRef.on("value", function (snapshot) {
+    snapshot.forEach(function (childSnapshot) {
+      var userId = childSnapshot.key;
+      var option = document.createElement("option");
+      option.value = userId;
+      option.text = userId;
+      userDropdown.add(option);
+    });
+  });
+</script>
 
 </body>
 
@@ -91,26 +164,21 @@ function acceptCookies() {
 			document.getElementById("cookie-popup").style.display = "none";
 		}
 
-  var firebaseConfig = {
-    apiKey: "AIzaSyC7B7bFnaLRmBEV21GelG1WegaZdwStFUk",
-  authDomain: "whattschatt.firebaseapp.com",
-  databaseURL: "https://whattschatt-default-rtdb.firebaseio.com",
-  projectId: "whattschatt",
-  storageBucket: "whattschatt.appspot.com",
-  messagingSenderId: "642166844125",
-  appId: "1:642166844125:web:f08eac1c5bab889730c934",
-  measurementId: "G-7EWL7J87S7"
-  };
+    var firebaseConfig = {
+    apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
+  authDomain: "whattschat-f522c.firebaseapp.com",
+  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
+  projectId: "whattschat-f522c",
+  storageBucket: "whattschat-f522c.appspot.com",
+  messagingSenderId: "746097682908",
+  appId: "1:746097682908:web:51a0278320ad4af5774719",
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+ 
+var database;
+database = firebase.database();
 
-
-  
-
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  
-  var database;
-  database = firebase.database();
 
   var url_string = window.location.href; // www.test.com?filename=test
   var url = new URL(url_string);
@@ -120,12 +188,32 @@ function acceptCookies() {
   document.getElementById("pcbtn").setAttribute('onclick',"document.location='/privatechat.html?userid="+myuserid+"&secretkey="+mysecretkey+"'");
   document.getElementById("demo").innerHTML = "Welcome " + myuserid;
 
+  
+
+  if (myuserid == null || myuserid == "") {
+        window.location.replace( "/abc.html");
+      }
+  
+//now connect to database and link to user; fetch secret key for given userid
+MyValRef = database.ref("/users/");
+var select = document.getElementById('user-dropdown');
+
+
+MyValRef.orderByValue().on("value", function(snapshot) {
+  snapshot.forEach(function(data) {
+        var option = document.createElement('option');
+        option.text = option.value = data.key;
+        select.add(option, 0);
+    })
+  
+    });
+
   //now connect to database and link to user; fetch secret key for given userid
-  MyValRef = database.ref("/" + myuserid);
+  MyValRef = database.ref("/users/" + myuserid);
 
   MyValRef.orderByValue().on("value", function(snapshot) {
     snapshot.forEach(function(data) {
-      
+
        //now compare database s key with mysecret
       if (mysecretkey == data.val()) {
         passwordmatched = true;                
@@ -133,7 +221,7 @@ function acceptCookies() {
       });
 
       if (passwordmatched != true) {
-        window.open( "/abc.html");
+        window.location.replace( "/abc.html");
       }
       else {
     
@@ -141,102 +229,13 @@ function acceptCookies() {
         
       }         
   });
-  function fnLogin(){
 
-var myuserid = document.getElementById("username2").value;
-var mypassword = document.getElementById("password2").value;
-var MyValRef = database.ref("/");
-var myuserandpassword = myuserid + mypassword + MyValRef ;
-
-if (document.getElementById("loginbtn").value == "Proceed to Whatschatt") {
   
-  if (useridpassed != myuserid) {
-    
-    window.open( "abc.html");
-    
-    return;
-  }
-
-  MyValRef = database.ref("/" + myuserid);
-  var myUUID = CreateUUID();
-  MyValRef.update({
-      mykey : myUUID
-  });
-
-  document.getElementById("loginbtn").value = "LOG IN";
-        
-  window.open( "myhomepage.html?userid=" + myuserid + "&secretkey=" + myUUID);
-  return; 
-} 
-
-userISfound = false;
-
-MyValRef.orderByValue().on("value", function(snapshot) {
-  snapshot.forEach(function(data) {
-  if (myuserid == data.key) {
-    userISfound = true;                     
-  }         
-  });
-
-  if (userISfound != true) {
-    alert("User ID Error!!");
-  } else {
-    alert("User ID Matched");
-    fnCheckPassword(myuserid,mypassword);
-  }      
-  MyValRef.off();
-});
 
 
-}
- 
+  </script>
 
 
-</script>
-
-
-</html>
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Dropdown Menu of Users in Firebase</title>
-	<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
-	<script>
-	  // Initialize Firebase
-	  const firebaseConfig = {
-	    apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
-  authDomain: "whattschat-f522c.firebaseapp.com",
-  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
-  projectId: "whattschat-f522c",
-  storageBucket: "whattschat-f522c.appspot.com",
-  messagingSenderId: "746097682908",
-  appId: "1:746097682908:web:51a0278320ad4af5774719",
-	  };
-	  firebase.initializeApp(firebaseConfig);
-
-	  // Get a reference to the users collection
-	  const usersRef = firebase.firestore().collection('rishi');
-
-	  // Get all users from the collection and populate the dropdown menu
-	  usersRef.get().then(querySnapshot => {
-	    const dropdownMenu = document.getElementById('users-dropdown');
-	    querySnapshot.forEach(doc => {
-	      const option = document.createElement('option');
-	      option.value = doc.data().username;
-	      option.text = doc.data().username;
-	      dropdownMenu.add(option);
-	    });
-	  });
-	</script>
-</head>
-<body>
-	<h1>Dropdown Menu of Users in Firebase</h1>
-	<select id="users-dropdown">
-		<option value="" disabled selected>Select a user</option>
-	</select>
-</body>
 </html>
 
 

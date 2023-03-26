@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<h1>山卄卂丅丅丂匚卄卂丅 v(3.4)</h1>
+<h1>山卄卂丅丅丂匚卄卂丅 v(3.9)</h1>
 <html>
 <head>
   <p id="current-time"></p>
@@ -35,9 +35,32 @@
         // Get a reference to the database service
         var database = firebase.database();       
         var url_string = window.location.href; // www.test.com?filename=test
-          var url = new URL(url_string);
-         var myuserid = url.searchParams.get("userid");
-          var mysecretkey = url.searchParams.get("secretkey");
+        var url = new URL(url_string);
+        var myuserid = url.searchParams.get("userid");
+        var mysecretkey = url.searchParams.get("secretkey");
+        var selecteduserid = url.searchParams.get("selecteduserid");
+        
+        var passwordmatched = false;
+      
+        //now connect to database and link to user; fetch secret key for given userid
+        MyValRef = database.ref("/users/" + myuserid);
+
+        MyValRef.orderByValue().on("value", function(snapshot) {
+          snapshot.forEach(function(data) {
+            //now compare database s key with mysecret
+            if (mysecretkey == data.val()) {
+              passwordmatched = true;                
+            }         
+          });
+
+          if (passwordmatched != true) {
+            window.location.replace("/abc.html");
+          }
+          else {
+            MyValRef.off();
+          }         
+        });
+
         // Get references to the input and send button
         var messageInput = document.getElementById("message-input");
         var sendButton = document.getElementById("send-button");
@@ -52,11 +75,18 @@
             
             // Get the message text from the input field
             var messageText = messageInput.value;
+            var MsgTime = document.getElementById("current-time").innerHTML;
+            var MsgDate = new Date();
+            var MsgFullDate = MsgDate.getDay() + "/" + MsgDate.getMonth() + "/" + MsgDate.getFullYear();            
             
+
             // Push the message to the database
             database.ref("messages").push({
+              selecteduserid:selecteduserid,
                 userId: userId,
-                message: messageText
+                message: messageText,
+                messageDate: MsgFullDate,
+                messageTime: MsgTime 
             });
             
             // Clear the input field
@@ -70,17 +100,17 @@
             
             // Create a new message element
             var messageElement = document.createElement("div");
+            if (messageData.selecteduserid == null){
+
+
             
             // Add the user ID and message text to the element
-            messageElement.innerHTML = "<strong>" + messageData.userId + "</strong>: " + messageData.message;
+            messageElement.innerHTML = "<strong>" + messageData.userId + "</strong>: <small>(" + messageData.messageTime + ")</small> :" + messageData.message;
             
             // Append the element to the messages div
             messagesDiv.appendChild(messageElement);
+            }
         });
-
-
-
-
 
         setInterval(function() {
         var currentTime = new Date();
@@ -99,7 +129,7 @@
           seconds = "0" + seconds;
         }
 
-        var timeString = hours + ':' + minutes + ':' + seconds;
+        var timeString = hours + ':' + minutes;
         document.getElementById("current-time").innerHTML = timeString;
       }, 1000); // 1000 milliseconds = 1 second
     </script>
