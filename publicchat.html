@@ -96,28 +96,28 @@
                 messageTime: MsgTime 
 
             });
-            alert("chat with "+selecteduserid)
+            
             // Clear the input field
             messageInput.value = "";
         });
         
         
-        // Listen for new messages in the database
         database.ref("messages").on("child_added", function(snapshot) {
-            // Get the message data
             var messageData = snapshot.val();
             
-            // Create a new message element
             var messageElement = document.createElement("div");
-            if (messageData.selecteduserid == null){
-
-
+            if (messageData.selecteduserid == null & selecteduserid == null){
             
-            // Add the user ID and message text to the element
-            messageElement.innerHTML = "<strong>" + messageData.userId + "</strong>: <small>(" + messageData.messageTime + ")</small> :" + messageData.message;
+              messageElement.innerHTML = "<strong>" + messageData.userId + "</strong>: <small>(" + messageData.messageTime + ")</small> :" + messageData.message;
+              messagesDiv.appendChild(messageElement);
             
-            // Append the element to the messages div
-            messagesDiv.appendChild(messageElement);
+            } else if ((messageData.selecteduserid == selecteduserid & messageData.userId == myuserid)
+                        ||
+                        (messageData.selecteduserid == myuserid & messageData.userId == selecteduserid)
+                        ) {
+                          
+              messageElement.innerHTML = "<strong>" + messageData.userId + "</strong>: <small>(" + messageData.messageTime + ")</small> :" + messageData.message;
+              messagesDiv.appendChild(messageElement);
             }
         });
 
