@@ -4,8 +4,8 @@
 <style>
   
 .container {
-			border: 10px solid black;
-			padding: 20px;
+			border: 100px solid black;
+			padding: 200px;
 			display: inline-block;
 		}
   </style>
@@ -20,10 +20,15 @@
 	<button onclick="hideMessage()">accept</button>
 	<button onclick="redirectToPage()">reject and leave</button>
 </div>
-
+<!--<button onclick="creategroup()">create group</button>-->>
 
 
   <script>
+    function creategroup(){
+      var alllist = id="user-dropdown"
+      window.location.href = ("/whattschat/myhomepage.html/creategroup.html?userlist="+usersRef+""+myuserid+""+mysecretkey)
+      
+    }
     var cookie = false;
 		function hideMessage() {
     // This function will hide the message when "Yes" is clicked
@@ -109,14 +114,13 @@
 </head>
 
 <body bgcolor="#ffb404">
-
-<h1>山卄卂丅丅丂匚卄卂丅 v(4.0)</h1>
+  
+<h1>山卄卂丅丅丂匚卄卂丅 v(4.1)</h1>
 <h3>my whattschat home page</h3>
 <p id="demo">PLACEHOLDER</p>
 
   <button class="button1" id="pcbtn" onclick=fnchat()>publicchat</button>
-  <button class="button1" id="pcbtn" onclick="document.location='/whattschat/sync.html'">sync with whatsapp</button>
- 
+  
 
 
 
@@ -160,7 +164,8 @@
     });
   });
 </script>
-
+<br><br><button class="button" id="pcbtn" onclick="document.location='/whattschat/sync.html'">sync with whatsapp</button>
+ 
 </body>
 
 
@@ -201,7 +206,7 @@ database = firebase.database();
   
 
   if (myuserid == null || myuserid == "") {
-        window.location.replace( "/abc.html");
+        window.location.replace( "/whattschat/abc.html");
       }
   
 //now connect to database and link to user; fetch secret key for given userid
@@ -231,7 +236,7 @@ MyValRef.orderByValue().on("value", function(snapshot) {
       });
 
       if (passwordmatched != true) {
-        window.location.replace( "/abc.html");
+        window.location.replace( "/whattschat/abc.html");
       }
       else {
     
