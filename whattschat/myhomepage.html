@@ -127,11 +127,19 @@
 
   <h1>select private chat from Users</h1>
 <!-- HTML code for the dropdown list -->
+<select id="user-dropdown" name="year" onchange="creategroup()"></select>
+<h1>create group (beta)</h1>
+<!-- HTML code for the dropdown list -->
 <select id="user-dropdown" name="year" onchange="redirectToPrivateChat()"></select>
-
 <script>
   // Function to redirect to private chat with selected user
   function redirectToPrivateChat() {
+    var selectedUserId = document.getElementById("user-dropdown").value;
+    
+      window.location.href = "/publicchat.html?userid="+myuserid+"&secretkey="+mysecretkey+"&selecteduserid=" + selectedUserId;
+    
+  }
+  function creategroup() {
     var selectedUserId = document.getElementById("user-dropdown").value;
     
       window.location.href = "/publicchat.html?userid="+myuserid+"&secretkey="+mysecretkey+"&selecteduserid=" + selectedUserId;
