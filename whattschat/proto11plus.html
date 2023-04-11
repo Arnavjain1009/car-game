@@ -55,14 +55,18 @@ button:hover {
 	</style>
 <head>
   <meta charset="UTF-8">
-  <title>Quiz</title>
+  <title>11+math/28</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 	
   <div class="container">
-    <h1>Quiz</h1>
+    <h1>11+math/28</h1>
+	<h1 id="outof28"></h1>
     <p id="question"></p>
+	<div id="progress" style="position: fixed; top: 10px; right: 10px;"></div>
+
+	
     <ul id="options"></ul>
     <button id="nextBtn">Next</button>
 
@@ -74,6 +78,8 @@ button:hover {
   <script src="quiz.js"></script>
 
 <script>
+
+var questionsdone = 1;
 	// Define an array of objects that contains the questions and their options
 var questions = [
  // Question 1
@@ -272,7 +278,8 @@ answer: "24"
 
 
 
-var time = 22 * 60; // Set the time in seconds
+var time = 22 * 60; 
+
 var timerEl = document.createElement("p"); // Create a new <p> element for the timer
 timerEl.textContent = "Time remaining: 23:00"; // Set the initial timer text
 document.querySelector(".container").appendChild(timerEl); // Add the timer to the HTML
@@ -321,10 +328,13 @@ function showQuestion() {
 
 // Function to check if the selected answer is correct
 function checkAnswer() {
+	var questionsdone = questionsdone+1;
   var selectedOption = document.querySelector('input[name="option"]:checked').value;
   if (selectedOption === questions[currentQuestion].answer) {
     score++; // Increment the score if the answer is correct
   }
+  var currentQuestionplus1 =currentQuestion + 2;
+  document.getElementById("outof28").innerHTML=currentQuestionplus1 + "/28";
 }
 
 // Function to go to the next question or end the quiz if all questions have been answered
