@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>11+ Exam Categories</title>
+    <style>
+      body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      
+      h1 {
+        margin-top: 50px;
+        font-size: 36px;
+        color: #333;
+      }
+      
+      button {
+        margin: 20px 10px;
+        padding: 10px 20px;
+        font-size: 24px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      button:hover {
+        background-color: #3e8e41;
+      }
+      
+      .category-img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        transition: transform 0.2s;
+      }
+      
+      .category-img:hover {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Choose an 11+ vr test:</h1>
+    <button onclick="vreasy()">
+      <img src="https://www.gotoquiz.com/qi/the_easy_test-f.jpg" alt="Verbal Reasoning category" class="category-img">
+      easy
+    </button>
+    
+    <button onclick="vrmedium()">
+      <img src="https://digitalpromise.org/wp-content/plugins/dp-roadmap/assets/icons/meter_med.png" alt="English category" class="category-img">
+      medium
+    </button>
+    
+    <button onclick="vrhard()">
+      <img src="https://thumbs.dreamstime.com/z/difficult-rubber-stamp-grunge-design-dust-scratches-effects-can-be-easily-removed-clean-crisp-look-color-easily-83162818.jpg" alt="Math category" class="category-img">
+      hard(done)
+    </button>
+
+    <script>
+
+     
+
+     // function math() {
+      //  window.location.href = "mathtest11plus.html";
+      //}
+
+
+      function vrhard() {
+  // Create the pop-up
+  var popupDiv = document.createElement("div");
+  popupDiv.style.position = "fixed";
+  popupDiv.style.top = "0";
+  popupDiv.style.left = "0";
+  popupDiv.style.width = "100%";
+  popupDiv.style.height = "100%";
+  popupDiv.style.backgroundColor = "rgba(0,0,0,0.5)";
+  popupDiv.style.display = "flex";
+  popupDiv.style.alignItems = "center";
+  popupDiv.style.justifyContent = "center";
+  popupDiv.style.zIndex = "9999";
+
+  // Create the paragraph
+  var paragraph = document.createElement("p");
+  paragraph.style.backgroundColor = "#fff";
+  paragraph.style.padding = "20px";
+  paragraph.style.borderRadius = "5px";
+  paragraph.innerText = "there are 40 questions and 7 minutes (40 mrks)||||| rules:no calculators,talking to others,any other distractions|||other stationary allowed ";;
+
+  // Add the paragraph to the pop-up
+  popupDiv.appendChild(paragraph);
+
+  // Create the "ready" button
+  var button = document.createElement("button");
+  button.style.padding = "10px 20px";
+  button.style.fontSize = "24px";
+  button.style.backgroundColor = "#4CAF50";
+  button.style.color = "#fff";
+  button.style.border = "none";
+  button.style.borderRadius = "5px";
+  button.style.cursor = "pointer";
+  button.innerText = "Ready";
+
+  // Add the "ready" button to the pop-up
+  popupDiv.appendChild(button);
+
+  // Add event listener to the "ready" button to redirect to the new page
+  button.addEventListener("click", function() {
+    window.location.href = "vrtest1hard.html"
+  });
+
+  // Add the pop-up to the body
+  document.body.appendChild(popupDiv);
+}
+
+
+
+
+
+
+function vrmedium() {
+  // Create the pop-up
+  var popupDiv = document.createElement("div");
+  popupDiv.style.position = "fixed";
+  popupDiv.style.top = "0";
+  popupDiv.style.left = "0";
+  popupDiv.style.width = "100%";
+  popupDiv.style.height = "100%";
+  popupDiv.style.backgroundColor = "rgba(0,0,0,0.5)";
+  popupDiv.style.display = "flex";
+  popupDiv.style.alignItems = "center";
+  popupDiv.style.justifyContent = "center";
+  popupDiv.style.zIndex = "9999";
+
+  // Create the paragraph
+  var paragraph = document.createElement("p");
+  paragraph.style.backgroundColor = "#fff";
+  paragraph.style.padding = "20px";
+  paragraph.style.borderRadius = "5px";
+  paragraph.innerText = "there are 40 questions and 7 minutes (40 mrks)||||| rules:no calculators,talking to others,any other distractions|||other stationary allowed ";;
+
+  // Add the paragraph to the pop-up
+  popupDiv.appendChild(paragraph);
+
+  // Create the "ready" button
+  var button = document.createElement("button");
+  button.style.padding = "10px 20px";
+  button.style.fontSize = "24px";
+  button.style.backgroundColor = "#4CAF50";
+  button.style.color = "#fff";
+  button.style.border = "none";
+  button.style.borderRadius = "5px";
+  button.style.cursor = "pointer";
+  button.innerText = "Ready";
+
+  // Add the "ready" button to the pop-up
+  popupDiv.appendChild(button);
+
+  // Add event listener to the "ready" button to redirect to the new page
+  button.addEventListener("click", function() {
+    window.location.href = "vrtest1medium.html"
+  });
+
+  // Add the pop-up to the body
+  document.body.appendChild(popupDiv);
+} 
+
+
+
+
+function vreasy() {
+  // Create the pop-up
+  var popupDiv = document.createElement("div");
+  popupDiv.style.position = "fixed";
+  popupDiv.style.top = "0";
+  popupDiv.style.left = "0";
+  popupDiv.style.width = "100%";
+  popupDiv.style.height = "100%";
+  popupDiv.style.backgroundColor = "rgba(0,0,0,0.5)";
+  popupDiv.style.display = "flex";
+  popupDiv.style.alignItems = "center";
+  popupDiv.style.justifyContent = "center";
+  popupDiv.style.zIndex = "9999";
+
+  // Create the paragraph
+  var paragraph = document.createElement("p");
+  paragraph.style.backgroundColor = "#fff";
+  paragraph.style.padding = "20px";
+  paragraph.style.borderRadius = "5px";
+  paragraph.innerText = "there are 40 questions and 7 minutes (40 mrks)||||| rules:no calculators,talking to others,any other distractions|||other stationary allowed  ";;
+
+  // Add the paragraph to the pop-up
+  popupDiv.appendChild(paragraph);
+
+  // Create the "ready" button
+  var button = document.createElement("button");
+  button.style.padding = "10px 20px";
+  button.style.fontSize = "24px";
+  button.style.backgroundColor = "#4CAF50";
+  button.style.color = "#fff";
+  button.style.border = "none";
+  button.style.borderRadius = "5px";
+  button.style.cursor = "pointer";
+  button.innerText = "Ready";
+
+  // Add the "ready" button to the pop-up
+  popupDiv.appendChild(button);
+
+  // Add event listener to the "ready" button to redirect to the new page
+  button.addEventListener("click", function() {
+    window.location.href = "vrtest1easy.html"
+  });
+
+  // Add the pop-up to the body
+  document.body.appendChild(popupDiv);
+}
+
+    </script>
+  </body>
+</html>
