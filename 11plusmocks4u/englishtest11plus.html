@@ -67,7 +67,7 @@ button:hover {
 <body>
 	
   <div class="container">
-    <h1>11+english/30</h1>
+    <h1>11+english/30mrks</h1>
 	<h1 id="outof28"></h1>
     <p>Extract:
 
@@ -77,7 +77,7 @@ button:hover {
 
 	
     <ul id="options"></ul>
-    <button id="nextBtn">Next/10</button>
+    <button id="nextBtn">Next/10Qs</button>
 
 
 
@@ -153,7 +153,7 @@ answer: "To teach young children and help them discover their passions and talen
 
 
 
-var time = 11 * 60; 
+var time = 7 * 60; 
 
 var timerEl = document.createElement("p"); // Create a new <p> element for the timer
 timerEl.textContent = "Time remaining: 23:00"; // Set the initial timer text
@@ -221,7 +221,7 @@ function checkAnswer() {
     score++; // Increment the score if the answer is correct
   }
   var currentQuestionplus1 =currentQuestion + 2;
-  document.getElementById("outof28").innerHTML=currentQuestionplus1 + "/30";
+  document.getElementById("outof28").innerHTML=currentQuestionplus1 + "/10";
 }
 
 // Function to go to the next question or end the quiz if all questions have been answered
