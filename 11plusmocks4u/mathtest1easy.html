@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+  <button onclick="window.location.href='reportaproblem.webador.co.uk'">report a problem</button>
 	<style>
     input[type=radio] {
     border: 0px;
@@ -96,7 +97,7 @@ options: ["9", "12", "16", "18"],
 answer: "12"},
 
 {question: "What is the value of 3/5 + 2/5?",
-options: ["1/5", "3/5", "4/5", "5/5"],
+options: ["1/5", "3/5", "4/5", "1"],
 answer: "1"},
 
 {question: "What is the product of 9 and 7?",
@@ -104,8 +105,8 @@ options: ["16", "63", "72", "81"],
 answer: "63"},
 
 {question: "What is the value of 10 - (4 + 3) x 2?",
-options: ["0", "2", "4", "6"],
-answer: "0"},
+options: ["0", "2", "-4", "6"],
+answer: "-4"},
 
 {question: "What is the quotient of 36 divided by 4?",
 options: ["6", "8", "9", "12"],
@@ -125,22 +126,22 @@ answer: "180 degrees"},
 
 {question: "What is the value of 5/8 - 1/4?",
 options: ["1/8", "1/6", "1/4", "3/8"],
-answer: "1/8"},
+answer: "3/8"},
 {question: "What is the value of 3x + 5y if x = 2 and y = 3?",
 options: ["11", "15", "19", "21"],
-answer: "19"},
+answer: "21"},
 
 {question: "What is the value of 2x - 3y if x = 4 and y = 1?",
 options: ["-1", "2", "5", "8"],
 answer: "5"},
 
-{question: "What is the value of 5/8 ÷ 1/4?",
-options: ["5/4", "5/8", "10/8", "10/5"],
-answer: "2"},
+{question: "What is the value of 6/8 ÷ 1/4?",
+options: ["5/4", "3/8", "10/8", "10/5"],
+answer: "3/8"},
 
 {question: "What is the value of (4 + 5) x (6 - 2)?",
-options: ["18", "32", "36", "45"],
-answer: "36"},
+options: ["18", "33", "36", "45"],
+answer: "33"},
 
 {question: "What is the value of 7² - 4²?",
 options: ["23", "33", "41", "45"],
@@ -166,13 +167,13 @@ answer: "432"},
 options: ["49", "51", "56", "64"],
 answer: "49"},
 
-{question: "What is the value of 6 x 7 - 8 x 3?",
-options: ["10", "14", "20", "26"],
-answer: "10"},
+{question: "What is the value of 6 x 8 - 8 x 3?",
+options: ["10", "24", "20", "26"],
+answer: "24"},
 
 {question: "What is the value of 3/4 - 1/3?",
-options: ["1/12", "1/6", "7/12", "11/12"],
-answer: "1/12"},
+options: ["5/12", "1/6", "7/12", "11/12"],
+answer: "5/12"},
 
 {question: "What is the value of 2⁴ x 2³?",
 options: ["32", "64", "128", "256"],
@@ -182,9 +183,9 @@ answer: "128"},
 options: ["8", "10", "12", "15"],
 answer: "12"},
 
-{question: "What is the value of (4 x 10 - 9) ÷ 7?",
-options: ["2", "3", "4", "5"],
-answer: "3"},
+{question: "What is the value of (4 x 10 + 9) ÷ 7?",
+options: ["2", "3", "4", "7"],
+answer: "7"},
 
 {question: "What is the value of 15 - (5 + 3) x 2?",
 options: ["1", "5", "9", "13"],
@@ -305,6 +306,7 @@ showQuestion();
 
 // Add a click event listener to the "Next" button to go to the next question when clicked
 nextBtn.addEventListener("click", nextQuestion);
+
 
 </script>
   
