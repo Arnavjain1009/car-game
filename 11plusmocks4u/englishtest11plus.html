@@ -144,7 +144,7 @@ answer: "She was spending too much time on administrative tasks"
 question: "What was the reason Mrs. Johnson had become a teacher in the first place?",
 options: ["To follow mandates and policies", "To fill out paperwork", "To spend more time on administrative tasks", "To teach young children and help them discover their passions and talents"],
 answer: "To teach young children and help them discover their passions and talents"
-}
+},
 
 
   // Add more questions and their options and answers here
@@ -167,7 +167,7 @@ var timerId = setInterval(function() {
   
   if (time <= 0) {
     clearInterval(timerId); // Stop the timer
-    questionEl.textContent = "Quiz complete! You scored " + multiscore + " out of " + "30 questions."; // Display the final score
+    questionEl.textContent = "Quiz complete! You scored " + multiscore + " out of 30 questions." // Display the final score
     optionsEl.innerHTML = ""; // Remove the answer options
     nextBtn.disabled = true; // Disable the "Next" button
   }
@@ -221,7 +221,7 @@ function checkAnswer() {
     score++; // Increment the score if the answer is correct
   }
   var currentQuestionplus1 =currentQuestion + 2;
-  document.getElementById("outof28").innerHTML=currentQuestionplus1 + "/10";
+  document.getElementById("outof28").innerHTML=currentQuestionplus1 + "/30";
 }
 
 // Function to go to the next question or end the quiz if all questions have been answered
@@ -231,7 +231,7 @@ function nextQuestion() {
 
   // If all questions have been answered, end the quiz and display the score
   if (currentQuestion === questions.length) {
-    questionEl.textContent = "Quiz complete! You scored " + score + " out of " + questions.length + " questions.";
+    questionEl.textContent = "Quiz complete! You scored " + score*3 + " out of 30 marks.";
     optionsEl.innerHTML = "";
     nextBtn.disabled = true;
   } else {

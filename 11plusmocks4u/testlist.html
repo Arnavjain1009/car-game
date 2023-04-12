@@ -1,22 +1,68 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Page Title</title>
+    <title>11+ Exam Categories</title>
+    <style>
+      body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      
+      h1 {
+        margin-top: 50px;
+        font-size: 36px;
+        color: #333;
+      }
+      
+      button {
+        margin: 20px 10px;
+        padding: 10px 20px;
+        font-size: 24px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      button:hover {
+        background-color: #3e8e41;
+      }
+      
+      .category-img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        transition: transform 0.2s;
+      }
+      
+      .category-img:hover {
+        transform: scale(1.1);
+      }
+    </style>
   </head>
   <body>
-    <h1>Choose a category:</h1>
-    <button onclick="vr()">Verbal Reasoning(done)</button>
-    <button onclick="nvr()">Non-Verbal Reasoning</button>
-    <button onclick="english()">English</button>
-    <button onclick="math()">Math(done)</button>
+    <h1>Choose an 11+ exam category:</h1>
+    <button onclick="vr()">
+      <img src="https://primary.jwwb.nl/public/r/x/e/temp-wxzhyogsngfrjjebandu/83ofx0/vr2.png" alt="Verbal Reasoning category" class="category-img">
+      Verbal Reasoning 
+    </button>
+    
+    <button onclick="english()">
+      <img src="https://primary.jwwb.nl/public/r/x/e/temp-wxzhyogsngfrjjebandu/vcx33b/english2.png" alt="English category" class="category-img">
+      literacy
+    </button>
+    
+    <button onclick="math()">
+      <img src="https://primary.jwwb.nl/public/r/x/e/temp-wxzhyogsngfrjjebandu/yezsp4/math2.png" alt="Math category" class="category-img">
+      Mathematics 
+    </button>
 
     <script>
       function vr() {
         window.location.href = "vrtest11plus.html";
-      }
-
-      function nvr() {
-        window.location.href = "nvrtest11plus.html";
       }
 
       function english() {
