@@ -44,14 +44,11 @@ alert(cc);
     });
   }
   var mydata = "";
-  async function main(e) {
+  async function main(prompt) {
     const data1 = await getDataFromFirebase();
     
     mydata = data1;
     
-    console.log(data1);
-
-
     const img = document.createElement('img');
   img.src = 'https://i.pinimg.com/originals/53/e9/45/53e945c516cebdffd987b6c2df159db1.jpg';
   img.alt = 'AI';
@@ -73,13 +70,6 @@ alert(cc);
 
   // Scroll to bottom of chat container
   chatContainer.scrollTop = chatContainer.scrollHeight;
-
-  // Clear the prompt input
-  e.target.prompt.value = '';
-  
-
-  const prompt = e.target.prompt.value;
- 
   const response =await fetch('https://api.openai.com/v1/chat/completions', {
     
     method: 'POST',
@@ -89,7 +79,7 @@ alert(cc);
     },
     body: JSON.stringify({
       "model": "gpt-3.5-turbo",
-      "messages": [{"role": "user", "content": `${prompt}`}]
+      "messages": [{"role": "user", "content": prompt}]
     }),
    
   });
@@ -109,7 +99,10 @@ const chatContainer = document.getElementById('chat_container');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  main(e);  
+  main(e.target.prompt.value);
+
+  // Clear the prompt input
+  e.target.prompt.value = '';
 
   
 });
