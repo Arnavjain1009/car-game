@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500;700;800;900&display=swap");
+#chat_form {
+  margin-top: 100px; /* decrease the margin between the form and the header */
+}
 
 * {
   margin: 0;
@@ -13,7 +16,7 @@ body {
 
 #app {
   width: 100vw;
-  height: 100vh;
+  height: 80vh;
   background: #343541;
 
   display: flex;
@@ -45,7 +48,7 @@ body {
 }
 
 .wrapper {
-  width: 100%;
+  width: 10%;
   padding: 15px;
 }
 
@@ -81,8 +84,8 @@ body {
 }
 
 .profile img {
-  width: 60%;
-  height: 60%;
+  width: 120%;
+  height: 120%;
   object-fit: contain;
 }
 
@@ -122,6 +125,9 @@ form {
   display: flex;
   flex-direction: row;
   gap: 10px;
+}
+.header {
+  margin-top: 20px; /* increase the margin above the header */
 }
 
 textarea {
