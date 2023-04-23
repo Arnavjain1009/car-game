@@ -22,8 +22,6 @@ var mysecretkey = url.searchParams.get("secretkey");
 var passwordmatched = false;
 
 
-
-
 /*now connect to database and link to user; fetch secret key for given userid
 var MyValRef = database.ref("/cc/");
   MyValRef.on("value", function (snapshot) {

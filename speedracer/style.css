@@ -60,7 +60,7 @@ canvas {
   margin-bottom:100px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: flex;
   font-size: 16px;
   font-family: vollkorn;
   margin: 4px 2px;
@@ -77,7 +77,7 @@ canvas {
   background-image: url('../speedracer/assets/reset.png');
   background-size: cover;
   border-radius: 30px;
-  display: inline-block;
+  display: flex;
   cursor: pointer;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
