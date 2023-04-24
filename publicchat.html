@@ -5,23 +5,68 @@
   <title>chat</title>
   <link rel="icon" type="image/svg+xml" href="https://www.shutterstock.com/image-vector/initial-letter-number-logo-r-600w-621114830.jpg" />
  
-
+<style>
+  @media only screen and (max-width: 600px) {
+        body {
+          font-size: 16px;
+        }
+        #message-container {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          padding: 10px;
+          background-color: #ffffff;
+          box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.3);
+        }
+        #messages {
+          border: 1px solid #cccccc;
+          padding: 10px;
+          max-height: 60vh;
+          overflow-y: auto;
+        }
+        #message-input {
+          width: 80%;
+          padding: 10px;
+          margin-right: 10px;
+          border: 1px solid #cccccc;
+        }
+        #send-button {
+          width: 20%;
+          padding: 10px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+      }
+</style>
   
   <p id="current-time"></p>
   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>group Chat</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 <body bgcolor= "#ffb404">
-    <h1>group chat</h1>
+  <div id="messages-container">
     <div id="messages"></div>
-    <input type="text" id="message-input">
-    <button id="send-button">Send</button>
-    
+    <div id="message-input-container">
+      <input type="text" id="message-input">
+      <button id="send-button">Send</button>
+    </div>
+  </div>
     <script>
 
+var messagesDiv = document.getElementById("messages");
+      messagesDiv.style.border = "1px solid #000";
+      messagesDiv.style.padding = "10px";
 
+      // Make the messages div expand to the full width of the screen on small screens
+      if (window.innerWidth < 600) {
+        messagesDiv.style.maxWidth = "100%";
+      }
 
       
         // Initialize Firebase

@@ -4,6 +4,7 @@
   <link rel="icon" type="image/svg+xml" href="https://www.shutterstock.com/image-vector/initial-letter-number-logo-r-600w-621114830.jpg" />
  
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   
 .container {
@@ -19,11 +20,10 @@
 
 
 <div class="container">
-<h1>this website uses cookies</h1>
-	<button onclick="hideMessage()">accept</button>
-	<button onclick="redirectToPage()">reject and leave</button>
-</div>
-<!--<button onclick="creategroup()">create group</button>-->>
+  <h1>This website uses cookies</h1>
+  <button onclick="hideMessage()">Accept</button>
+  <button onclick="redirectToPage()">Reject and leave</button>
+</div><!--<button onclick="creategroup()">create group</button>-->
 
 
   <script>
@@ -60,80 +60,83 @@
     
     </script>
 <style>
-  
-  .customInput {
-  width:200px;
-  height:30px;
-  border: 3px solid white;
-  border-radius: 5px;
-  padding: 5px;
-  background-color:transparent;
-  font-size: 20px;
-  outline:none;
-  color:white;
-  font-family: vollkorn;
-  text-align: center;
-}
+    @media only screen and (max-width: 600px) {
+        body {
+          font-size: 16px;
+        }
+        .container {
+          max-width: 100%;
+          padding: 10px;
+          text-align: center;
+        }
+        select {
+          max-width: 100%;
+          margin: 10px 0;
+        }
+        button {
+          margin: 10px;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: #4CAF50;
+          color: white;
+          font-weight: bold;
+        }
+      }
 
-.button {
-  display: flex;
-  padding: 15px 25px;
-  font-size: 14px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #4CAF50;
-  border: none;
-  border-radius: 14px;
-  box-shadow: 0 9px #999;
-}
-.button1 {
-  display: flex;
-  padding: 15px 25px;
-  font-size: 24px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  outline: none;
-  color: #ffff00;
-  background-color: #800080;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 9px #3e8e41;
-}
-
-.button:hover {background-color: #3e8e41}
-.button1:hover {background-color: #242124}
-
-.button:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
+      /* Add styles for larger screens */
+      @media only screen and (min-width: 601px) {
+        body {
+          font-size: 18px;
+        }
+        .container {
+          max-width: 600px;
+          margin: auto;
+          padding: 20px;
+          text-align: center;
+        }
+        select {
+          max-width: 400px;
+          margin: 20px 0;
+        }
+        button {
+          margin: 20px;
+          padding: 15px;
+          border-radius: 10px;
+          background-color: #4CAF50;
+          color: white;
+          font-weight: bold;
+          font-size: 18px;
+        }
+        .flex-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #create-group-btn {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+      }
 </style>  
 
 </head>
 
 <body bgcolor="#ffb404">
+  <div class="flex-container">
+  <h1 style="text-align: center;">Whattschat</h1>
+  <h3 style="text-align: center;">My Whattschat home page</h3>
+  <p id="demo" style="text-align: center;">Placeholder</p>
+    <button class="button1" id="pcbtn" onclick=fnchat()>publicchat</button>
   
-<h1>whattschat</h1>
-<h3>my whattschat home page</h3>
-<p id="demo">PLACEHOLDER</p>
-
-  <button class="button1" id="pcbtn" onclick=fnchat()>publicchat</button>
-  
 
 
-
-
-  <h1>select private chat from Users</h1>
+    <h1 style="text-align: center;">Select private chat from users</h1>
 <!-- HTML code for the dropdown list -->
-<select id="user-dropdown" name="year" onchange="creategroup()"></select>
-<h1>create group (beta)</h1>
+ <select id="user-dropdown" name="year" onchange="creategroup()" style="margin: 0 auto;"></select>
+ <h1 id="create-group-btn" style="text-align: center;">Create group (beta)</h1>
+ </div>
 <!-- HTML code for the dropdown list -->
-<select id="user-dropdown" name="year" onchange="redirectToPrivateChat()"></select>
+<!--<select id="user-dropdown" name="year" onchange="redirectToPrivateChat()"></select>-->
 <script>
   // Function to redirect to private chat with selected user
   function redirectToPrivateChat() {
@@ -175,8 +178,9 @@
     });
   });
 </script>
-<br><br><button class="button" id="pcbtn" onclick="document.location='/whattschat/sync.html'">sync with whatsapp</button>
- 
+<div class="flex-container">
+<br><br><button class="button" id="create-group-btn" onclick="document.location='/whattschat/sync.html'">sync with whatsapp</button>
+</div>
 </body>
 
 
