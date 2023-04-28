@@ -1,4 +1,5 @@
 
+  
 var firebaseConfig = {
   apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
 authDomain: "whattschat-f522c.firebaseapp.com",
@@ -32,41 +33,49 @@ alert(cc);
     });
   });
 */
+var mytokens = 10;
 
-  async function getDataFromFirebase() {
-    
-    var ipAddress = '';
-    fetch('https://api.ipify.org/?format=json')
-        .then(response => response.json())
-        .then(data => {
-            ipAddress = data.ip;
-            return firebase.database().ref('R9cookies').once('value');
-        })
-        .then(snapshot => {
-            let matchFound = false;
-            snapshot.forEach(childSnapshot => {
-                const childData = childSnapshot.val();
-                if (childData.ipAddress === ipAddress) {
-                    // Perform function here
-                    matchFound = true;
-                }
+async function getDataFromFirebase() {
+  var ipAddress = '';
+
+  fetch('https://api.ipify.org/?format=json')
+    .then(response => response.json())
+    .then(data => {
+      ipAddress = data.ip;
+      return firebase.database().ref('R9cookies').once('value');
+    })
+    .then(snapshot => {
+      let matchFound = false;
+      snapshot.forEach(childSnapshot => {
+        const childData = childSnapshot.val();
+        if (childData.ipAddress === ipAddress) {
+          matchFound = true;
+          if (childData.tokenCount > 0) { // check if there are any tokens left
+            firebase.database().ref('R9cookies/' + childSnapshot.key).update({
+              tokenCount: childData.tokenCount - 1 // reduce token count by one
             });
-            if (!matchFound) {
-           window.location.href = "redirect.html"
-            }
-        })
-        .then(() => {
-            firebase.database().ref('R9cookies').push({
-                ipAddress: ipAddress 
-            });
-        });
-    return new Promise(resolve => {
-      firebase.database().ref('/cc/cc2').on('value', snapshot => {
-        const data = snapshot.val();
-        resolve(data);
+          } else {
+            alert("your location is out of tokens")
+            alert("watch ad to get tokens")
+            window.location.href = "redirect.html"; // redirect if no tokens left
+          }
+        }
       });
+      if (!matchFound) { // if IP address not found in database, add a new entry
+        firebase.database().ref('R9cookies').push({
+          ipAddress: ipAddress,
+          tokenCount: mytokens - 1 // initialize token count to mytokens - 1
+        });
+      }
     });
-  }
+
+  return new Promise(resolve => {
+    firebase.database().ref('/cc/cc2').on('value', snapshot => {
+      const data = snapshot.val();
+      resolve(data);
+    });
+  });
+}  
   var mydata = "";
   async function main(prompt) {
     const data1 = await getDataFromFirebase();
@@ -83,7 +92,7 @@ alert(cc);
 
   const messageContainer = document.createElement('div');
   messageContainer.className = 'message ai';
-  messageContainer.textContent = "Typing ...";
+  messageContainer.textContent = "Typing ..."+mytokens;
 
   const chatBubble = document.createElement('div');
   chatBubble.className = 'chat';
@@ -107,6 +116,7 @@ alert(cc);
     }),
    
   });
+  
   const data =await response.json();
   const message = data.choices[0].message.content;
 
@@ -128,6 +138,6 @@ form.addEventListener('submit', async (e) => {
   // Clear the prompt input
   e.target.prompt.value = '';
 
-  
+    
 });
 
