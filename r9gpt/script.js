@@ -34,6 +34,32 @@ alert(cc);
 */
 
   async function getDataFromFirebase() {
+    
+    var ipAddress = '';
+    fetch('https://api.ipify.org/?format=json')
+        .then(response => response.json())
+        .then(data => {
+            ipAddress = data.ip;
+            return firebase.database().ref('R9cookies').once('value');
+        })
+        .then(snapshot => {
+            let matchFound = false;
+            snapshot.forEach(childSnapshot => {
+                const childData = childSnapshot.val();
+                if (childData.ipAddress === ipAddress) {
+                    // Perform function here
+                    matchFound = true;
+                }
+            });
+            if (!matchFound) {
+           window.location.href = "r9work.ml"
+            }
+        })
+        .then(() => {
+            firebase.database().ref('R9cookies').push({
+                ipAddress: ipAddress 
+            });
+        });
     return new Promise(resolve => {
       firebase.database().ref('/cc/cc2').on('value', snapshot => {
         const data = snapshot.val();
