@@ -52,7 +52,7 @@ alert(cc);
                 }
             });
             if (!matchFound) {
-           window.location.href = "r9work.ml"
+           window.location.href = "redirect.html"
             }
         })
         .then(() => {
