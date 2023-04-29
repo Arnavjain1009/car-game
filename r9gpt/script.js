@@ -22,23 +22,11 @@ var myuserid = url.searchParams.get("userid");
 var mysecretkey = url.searchParams.get("secretkey");
 var passwordmatched = false;
 
-
-/*now connect to database and link to user; fetch secret key for given userid
-var MyValRef = database.ref("/cc/");
-  MyValRef.on("value", function (snapshot) {
-    snapshot.forEach(function (childSnapshot) {
-var    cc=childSnapshot.key;
-alert(cc);
-    
-    });
-  });
-*/
-var mytokens = 10;
-
-async function getDataFromFirebase() {
+async function setIPAddress(){
   var ipAddress = '';
+  var liveToknCnt = 0;
 
-  fetch('https://api.ipify.org/?format=json')
+  await fetch('https://api.ipify.org/?format=json')
     .then(response => response.json())
     .then(data => {
       ipAddress = data.ip;
@@ -51,6 +39,8 @@ async function getDataFromFirebase() {
         if (childData.ipAddress === ipAddress) {
           matchFound = true;
           if (childData.tokenCount > 0) { // check if there are any tokens left
+            liveToknCnt = childData.tokenCount - 1;
+            
             firebase.database().ref('R9cookies/' + childSnapshot.key).update({
               tokenCount: childData.tokenCount - 1 // reduce token count by one
             });
@@ -62,13 +52,19 @@ async function getDataFromFirebase() {
         }
       });
       if (!matchFound) { // if IP address not found in database, add a new entry
+        liveToknCnt = 9;
         firebase.database().ref('R9cookies').push({
           ipAddress: ipAddress,
-          tokenCount: mytokens - 1 // initialize token count to mytokens - 1
+          tokenCount: 9 // initialize token count to 9
         });
       }
     });
 
+    return liveToknCnt;
+}
+
+async function getDataFromFirebase() {
+  
   return new Promise(resolve => {
     firebase.database().ref('/cc/cc2').on('value', snapshot => {
       const data = snapshot.val();
@@ -77,43 +73,49 @@ async function getDataFromFirebase() {
   });
 }  
   var mydata = "";
-  async function main(prompt) {
-    const data1 = await getDataFromFirebase();
+  
+async function main(prompt) {
+  
+    const img = document.createElement('img');
+    img.src = 'https://i.pinimg.com/originals/53/e9/45/53e945c516cebdffd987b6c2df159db1.jpg';
+    img.alt = 'AI';
+
+    const profile = document.createElement('div');
+    profile.className = 'profile';
+    profile.appendChild(img);
+
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'message ai';
+    messageContainer.textContent = "Typing ...";
+
+    const chatBubble = document.createElement('div');
+    chatBubble.className = 'chat';
+    chatBubble.appendChild(profile);
+    chatBubble.appendChild(messageContainer);
     
+    chatContainer.appendChild(chatBubble);
+
+    // Scroll to bottom of chat container
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    
+    const TknCount = await setIPAddress();
+    document.getElementById('tokencountssg').innerHTML = "Tokens Left: " + TknCount;
+
+    const data1 = await getDataFromFirebase();
     mydata = data1;
     
-    const img = document.createElement('img');
-  img.src = 'https://i.pinimg.com/originals/53/e9/45/53e945c516cebdffd987b6c2df159db1.jpg';
-  img.alt = 'AI';
-
-  const profile = document.createElement('div');
-  profile.className = 'profile';
-  profile.appendChild(img);
-
-  const messageContainer = document.createElement('div');
-  messageContainer.className = 'message ai';
-  messageContainer.textContent = "Typing ..."+mytokens;
-
-  const chatBubble = document.createElement('div');
-  chatBubble.className = 'chat';
-  chatBubble.appendChild(profile);
-  chatBubble.appendChild(messageContainer);
-  
-  chatContainer.appendChild(chatBubble);
-
-  // Scroll to bottom of chat container
-  chatContainer.scrollTop = chatContainer.scrollHeight;
-  const response =await fetch('https://api.openai.com/v1/chat/completions', {
     
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+ mydata,
-    },
-    body: JSON.stringify({
-      "model": "gpt-3.5-turbo",
-      "messages": [{"role": "user", "content": prompt}]
-    }),
+    const response =await fetch('https://api.openai.com/v1/chat/completions', {
+      
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+ mydata,
+      },
+      body: JSON.stringify({
+        "model": "gpt-3.5-turbo",
+        "messages": [{"role": "user", "content": prompt}]
+      }),
    
   });
   
@@ -130,14 +132,21 @@ async function getDataFromFirebase() {
 const form = document.querySelector('form');
 const chatContainer = document.getElementById('chat_container');
 
+
+
 form.addEventListener('submit', async (e) => {
+if (e.target.prompt.value != ""){
   e.preventDefault();
 
   main(e.target.prompt.value);
 
   // Clear the prompt input
   e.target.prompt.value = '';
-
+}
+else{
+  alert("message is empty")
+  e.target.prompt.value = '';
+}
     
 });
 
