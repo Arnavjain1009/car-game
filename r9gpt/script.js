@@ -129,12 +129,46 @@ async function main(prompt) {
 
 
 
-const form = document.querySelector('form');
-const chatContainer = document.getElementById('chat_container');
-
-
+  const form = document.querySelector('form');
+  const chatContainer = document.getElementById('chat_container');
+  
+  form.addEventListener('submit', async (e) => {
+    if (e.target.prompt.value != "") {
+      e.preventDefault();
+  
+      const prompt = e.target.prompt.value.toLowerCase();
+  
+      // Check if prompt contains the keyword "openai"
+      if (prompt.includes("openai")) {
+alert("please do not refer to openai we are r9gpt")
+        window.location.href = "r9gpt.html"
+      }
+      if (prompt.includes("chatgpt")) {
+        alert("please do not refer to chatgpt we are r9gpt")
+                window.location.href = "r9gpt.html"
+              }
+              if (prompt.includes("r9gpt")) {
+                alert("r9gpt has created the ai you are using")
+                        window.location.href = "r9gpt.html"
+                      }
+                      if (prompt.includes("who created you")) {
+                        alert("r9gpt has created the ai you are using")
+                                window.location.href = "r9gpt.html"
+                              }
+                
+        
+              
+          
+      main(prompt);
+  
+      // Clear the prompt input
+      e.target.prompt.value = '';
+    } 
+  });  
 
 form.addEventListener('submit', async (e) => {
+  
+  
 if (e.target.prompt.value != ""){
   e.preventDefault();
 
@@ -143,9 +177,4 @@ if (e.target.prompt.value != ""){
   // Clear the prompt input
   e.target.prompt.value = '';
 }
-else{
-  alert("message is empty")
-  e.target.prompt.value = '';
-}
-    
 });
