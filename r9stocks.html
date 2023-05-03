@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stock Data</title>
+</head>
+<body>
+
+	<h1>r9stocks</h1>
+    <h3>only nickname like shopify=shop</h3>
+	<input type="text" id="stock-symbol" placeholder="Enter a stock symbol">
+	<button onclick="getStockData()">Search</button>
+
+	<h2 id="stock-name"></h2>
+	<div id="stock-data"></div>
+
+	<script>
+		const API_KEY = '4KTVNZMCDJUKJZV3';
+		const url = 'https://www.alphavantage.co/query';
+
+		function getStockData() {
+			const stockSymbolInput = document.getElementById('stock-symbol');
+			const stockSymbol = stockSymbolInput.value.toUpperCase();
+			const functionName = 'GLOBAL_QUOTE';
+
+			const queryParams = {
+				function: functionName,
+				symbol: stockSymbol,
+				apikey: API_KEY,
+			};
+
+			const queryString = new URLSearchParams(queryParams).toString();
+			const fullUrl = `${url}?${queryString}`;
+
+			fetch(fullUrl)
+				.then(response => response.json())
+				.then(data => {
+					const stockName = data['Global Quote']['01. symbol'];
+					const stockPrice = data['Global Quote']['05. price'];
+					const stockChange = data['Global Quote']['09. change'];
+					const stockPercentChange = data['Global Quote']['10. change percent'];
+					const stockLastRefreshed = data['Global Quote']['07. latest trading day'];
+
+					document.getElementById('stock-name').textContent = stockName;
+					document.getElementById('stock-data').innerHTML = `
+						<p>Price: ${stockPrice}</p>
+						<p>Change: ${stockChange}</p>
+						<p>Percent Change: ${stockPercentChange}</p>
+						<p>Last Refreshed: ${stockLastRefreshed}</p>
+					`;
+				})
+				.catch(error => console.error(error));
+		}
+	</script>
+</body>
+</html>
