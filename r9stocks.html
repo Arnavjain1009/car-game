@@ -2,54 +2,108 @@
 <html>
 <head>
 	<title>Stock Data</title>
+	<meta name="viewport" content="width=device-width">
+	<style>
+	body {
+  background-color: #f1f1f1;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+input[type="text"] {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  margin-right: 1rem;
+}
+
+button {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background-color: blue;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+#stock-name {
+  font-size: 2rem;
+  margin-top: 2rem;
+}
+
+#stock-data {
+  margin-top: 2rem;
+}
+</style>
 </head>
 <body>
-
 	<h1>r9stocks</h1>
-    <h3>only nickname like shopify=shop</h3>
+	<h3>Enter the nickname of the stock, e.g., Shopify = shop</h3>
 	<input type="text" id="stock-symbol" placeholder="Enter a stock symbol">
 	<button onclick="getStockData()">Search</button>
 
-	<h2 id="stock-name"></h2>
-	<div id="stock-data"></div>
+<h2 id="stock-name"></h2>
 
-	<script>
-		const API_KEY = '4KTVNZMCDJUKJZV3';
-		const url = 'https://www.alphavantage.co/query';
+<div id="stock-data">
+	<canvas id="stock-chart" height="300"></canvas>
+</div>
 
-		function getStockData() {
-			const stockSymbolInput = document.getElementById('stock-symbol');
-			const stockSymbol = stockSymbolInput.value.toUpperCase();
-			const functionName = 'GLOBAL_QUOTE';
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+	const API_KEY = '4KTVNZMCDJUKJZV3';
+	const url = 'https://www.alphavantage.co/query';
 
-			const queryParams = {
-				function: functionName,
-				symbol: stockSymbol,
-				apikey: API_KEY,
-			};
+	const getStockData = async () => {
+		try {
+			const stockSymbol = document.getElementById('stock-symbol').value.toUpperCase();
+			const response = await fetch(`${url}?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&apikey=${API_KEY}`);
+			const data = await response.json();
 
-			const queryString = new URLSearchParams(queryParams).toString();
-			const fullUrl = `${url}?${queryString}`;
+			document.getElementById('stock-name').textContent = data['Meta Data']['2. Symbol'];
 
-			fetch(fullUrl)
-				.then(response => response.json())
-				.then(data => {
-					const stockName = data['Global Quote']['01. symbol'];
-					const stockPrice = data['Global Quote']['05. price'];
-					const stockChange = data['Global Quote']['09. change'];
-					const stockPercentChange = data['Global Quote']['10. change percent'];
-					const stockLastRefreshed = data['Global Quote']['07. latest trading day'];
-
-					document.getElementById('stock-name').textContent = stockName;
-					document.getElementById('stock-data').innerHTML = `
-						<p>Price: ${stockPrice}</p>
-						<p>Change: ${stockChange}</p>
-						<p>Percent Change: ${stockPercentChange}</p>
-						<p>Last Refreshed: ${stockLastRefreshed}</p>
-					`;
-				})
-				.catch(error => console.error(error));
+			new Chart(document.getElementById('stock-chart'), {
+				type: 'line',
+				data: {
+					labels: Object.keys(data['Time Series (Daily)']),
+					datasets: [{
+						label: 'Price',
+						data: Object.values(data['Time Series (Daily)']).map(entry => entry['4. close']),
+						borderColor: 'blue',
+						fill: false,
+						pointRadius: 0,
+						borderWidth: 1,
+						lineTension: 0,
+					}],
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					legend: { display: false },
+					scales: {
+						xAxes: [{ display: false, gridLines: { display: false } }],
+						yAxes: [{ display: false, gridLines: { display: false } }],
+					},
+				},
+			});
+		} catch (error) {
+			console.error(error);
 		}
-	</script>
+	}
+</script>
 </body>
 </html>
