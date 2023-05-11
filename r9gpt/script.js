@@ -1,5 +1,3 @@
-
-  
 var firebaseConfig = {
   apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
 authDomain: "whattschat-f522c.firebaseapp.com",
@@ -18,7 +16,7 @@ database = firebase.database();
 
 var url_string = window.location.href; // www.test.com?filename=test
 var url = new URL(url_string);
-var myuserid = url.searchParams.get("userid");
+var myuserid = "publicipadress";
 var mysecretkey = url.searchParams.get("secretkey");
 var passwordmatched = false;
 
@@ -123,7 +121,31 @@ async function main(prompt) {
   const message = data.choices[0].message.content;
 
   messageContainer.textContent = message;
+  const chat = {
+    prompt: prompt,
+    response: message
+  };
+  var ipAddress1 = '';
+  var liveToknCnt = 0;
 
+  await fetch('https://api.ipify.org/?format=json')
+    .then(response => response.json())
+    .then(data => {
+      ipAddress1 = data.ip;
+      return firebase.database().ref('R9cookies').once('value');
+    })
+
+  firebase.database().ref('history/' + myuserid).push(chat);
+  
+  firebase.database().ref('history/' + myuserid).once('value', snapshot => {
+    const history = snapshot.val();
+    if (history) {
+      Object.values(history).forEach(chat => {
+        
+      });
+    }
+  });
+  
   }
   
 
@@ -152,6 +174,7 @@ alert("please do not refer to openai we are r9gpt")
                         window.location.href = "r9gpt.html"
                       }
                       if (prompt.includes("who created you")) {
+                        
                         alert("r9gpt has created the ai you are using")
                                 window.location.href = "r9gpt.html"
                               }
