@@ -114,7 +114,7 @@ var firebaseConfig = {
         },
         body: JSON.stringify({
           "model": "gpt-3.5-turbo",
-          "messages": [{"role": "user", "content": "mark this text out of 1000 where 1000/1000 is at the writing skills from harry potter and then also give 5 positives and 5 negatives about the extract also a good extract should be between one to 3 pages. at the end also give a grade out of 5 where 5 is 1000 marks"+prompt}]
+          "messages": [{"role": "user", "content": "mark this text out of 1000 where 1000/1000 is at the writing intelligence of a well renouned author  and then also give 5 positives and 5 negatives about the extract also a good extract should be between one to 3 pages. at the end also give a grade out of 5 where 5 is 1000 marks"+prompt}]
         }),
      
     });
