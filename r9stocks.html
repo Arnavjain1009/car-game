@@ -25,6 +25,16 @@
 	<input type="text" id="stockInput" placeholder="Enter stock symbol">
 	<button onclick="loadStockData()">Load Stock</button>
 	
+	<label for="timeFrameSelect">Time Frame:</label>
+	<select id="timeFrameSelect" onchange="loadStockData()">
+		<option value="1">1 Month</option>
+		<option value="3">3 Months</option>
+		<option value="6">6 Months</option>
+		<option value="12">1 Year</option>
+		<option value="36">3 Years</option>
+		<option value="60">5 Years</option>
+	</select>
+	<canvas id="stockChart"></canvas>
   <table id="stockTable">
     <tr>
       <th>Date</th>
@@ -36,7 +46,7 @@
     </tr>
   </table>
   
-  <canvas id="stockChart"></canvas>
+  
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
@@ -46,11 +56,14 @@
       const stockInput = document.getElementById('stockInput');
       const ticker = stockInput.value.toUpperCase(); // Get the stock ticker and convert to uppercase
       
+      const timeFrameSelect = document.getElementById('timeFrameSelect');
+      const selectedTimeFrame = timeFrameSelect.value;
+      
       const currentDate = new Date();
       const endDate = currentDate.toISOString().split('T')[0]; // Use the current date as the end date
       
-      const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-      const formattedStartDate = startDate.toISOString().split('T')[0]; // Set the start date to the first day of the current month
+      const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - selectedTimeFrame, 1);
+      const formattedStartDate = startDate.toISOString().split('T')[0]; // Set the start date based on the selected time frame
       
       const apiUrl = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${formattedStartDate}/${endDate}?apiKey=${apiKey}`;
 
