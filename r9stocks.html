@@ -1,109 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Stock Data</title>
-	<meta name="viewport" content="width=device-width">
-	<style>
-	body {
-  background-color: #f1f1f1;
-  font-family: Arial, sans-serif;
-}
+  <title>Stock Market</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-input[type="text"] {
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 5px;
-  margin-right: 1rem;
-}
-
-button {
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  background-color: blue;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-}
-
-#stock-name {
-  font-size: 2rem;
-  margin-top: 2rem;
-}
-
-#stock-data {
-  margin-top: 2rem;
-}
-</style>
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    canvas {
+      width: 800px; /* Set a fixed width for the graph */
+      height: 400px; /* Set a fixed height for the graph */
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-	<h1>r9stocks</h1>
-	<h3>Enter the nickname of the stock, e.g., Shopify = shop</h3>
-	<input type="text" id="stock-symbol" placeholder="Enter a stock symbol">
-	<button onclick="getStockData()">Search</button>
+	<input type="text" id="stockInput" placeholder="Enter stock symbol">
+	<button onclick="loadStockData()">Load Stock</button>
+	
+  <table id="stockTable">
+    <tr>
+      <th>Date</th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+    </tr>
+  </table>
+  
+  <canvas id="stockChart"></canvas>
 
-<h2 id="stock-name"></h2>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const apiKey = 'LwOJltR_Q4RBuY7dAiKPArgd5r4KaNpF';
 
-<div id="stock-data">
-	<canvas id="stock-chart" height="300"></canvas>
-</div>
+    function loadStockData() {
+      const stockInput = document.getElementById('stockInput');
+      const ticker = stockInput.value.toUpperCase(); // Get the stock ticker and convert to uppercase
+      
+      const currentDate = new Date();
+      const endDate = currentDate.toISOString().split('T')[0]; // Use the current date as the end date
+      
+      const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      const formattedStartDate = startDate.toISOString().split('T')[0]; // Set the start date to the first day of the current month
+      
+      const apiUrl = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${formattedStartDate}/${endDate}?apiKey=${apiKey}`;
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-	const API_KEY = '4KTVNZMCDJUKJZV3';
-	const url = 'https://www.alphavantage.co/query';
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const stockData = data.results;
+          
+          const stockTable = document.getElementById('stockTable');
 
-	const getStockData = async () => {
-		try {
-			const stockSymbol = document.getElementById('stock-symbol').value.toUpperCase();
-			const response = await fetch(`${url}?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&apikey=${API_KEY}`);
-			const data = await response.json();
+          stockTable.innerHTML = ''; // Clear existing table data
 
-			document.getElementById('stock-name').textContent = data['Meta Data']['2. Symbol'];
+          stockData.forEach(stock => {
+            const row = stockTable.insertRow();
+            const date = new Date(stock.t);
+            const formattedDate = date.toLocaleString(); // Convert timestamp to human-readable format
+            row.insertCell().textContent = formattedDate;
+            row.insertCell().textContent = stock.o;
+            row.insertCell().textContent = stock.h;
+            row.insertCell().textContent = stock.l;
+            row.insertCell().textContent = stock.c;
+            row.insertCell().textContent = stock.v;
+          });
 
-			new Chart(document.getElementById('stock-chart'), {
-				type: 'line',
-				data: {
-					labels: Object.keys(data['Time Series (Daily)']),
-					datasets: [{
-						label: 'Price',
-						data: Object.values(data['Time Series (Daily)']).map(entry => entry['4. close']),
-						borderColor: 'blue',
-						fill: false,
-						pointRadius: 0,
-						borderWidth: 1,
-						lineTension: 0,
-					}],
-				},
-				options: {
-					responsive: true,
-					maintainAspectRatio: false,
-					legend: { display: false },
-					scales: {
-						xAxes: [{ display: false, gridLines: { display: false } }],
-						yAxes: [{ display: false, gridLines: { display: false } }],
-					},
-				},
-			});
-		} catch (error) {
-			console.error(error);
-		}
-	}
-</script>
+          const dates = stockData.map(stock => stock.t);
+          const closingPrices = stockData.map(stock => stock.c);
+
+          const stockChart = document.getElementById('stockChart').getContext('2d');
+          new Chart(stockChart, {
+            type: 'line',
+            data: {
+              labels: dates,
+              datasets: [{
+                label: 'Closing Price',
+                data: closingPrices,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: false, // Set responsive to false to maintain fixed size
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        })
+        .catch(error => console.log(error));
+    }
+  </script>
 </body>
 </html>
