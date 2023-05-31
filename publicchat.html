@@ -1,194 +1,268 @@
 <!DOCTYPE html>
-<h1>whattschat</h1>
 <html>
 <head>
-  <title>chat</title>
+  <title>whattschat</title>
   <link rel="icon" type="image/svg+xml" href="https://www.shutterstock.com/image-vector/initial-letter-number-logo-r-600w-621114830.jpg" />
- 
-<style>
-  @media only screen and (max-width: 600px) {
-        body {
-          font-size: 16px;
-        }
-        #message-container {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          padding: 10px;
-          background-color: #ffffff;
-          box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.3);
-        }
-        #messages {
-          border: 1px solid #cccccc;
-          padding: 10px;
-          max-height: 60vh;
-          overflow-y: auto;
-        }
-        #message-input {
-          width: 80%;
-          padding: 10px;
-          margin-right: 10px;
-          border: 1px solid #cccccc;
-        }
-        #send-button {
-          width: 20%;
-          padding: 10px;
-          background-color: #4CAF50;
-          color: white;
-          border: none;
-          cursor: pointer;
-        }
+  <style>
+    /* CSS styles here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #075e54;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    #messages-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 10px;
+      background-color: #ffffff;
+      box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    #messages {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    #message-input-container {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    #message-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #cccccc;
+    }
+
+    #send-button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .message-bubble {
+      border-radius: 10px;
+      padding: 5px 10px;
+      margin-bottom: 10px;
+    }
+
+    .my-message {
+      background-color: #4CAF50;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .other-message {
+      background-color: #f1f0f0;
+      color: black;
+      align-self: flex-start;
+    }
+
+    @media only screen and (max-width: 600px) {
+      body {
+        font-size: 16px;
       }
-</style>
+
+      #message-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        background-color: #ffffff;
+        box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      #messages {
+        border: 1px solid #cccccc;
+        padding: 10px;
+        max-height: 60vh;
+        overflow-y: auto;
+      }
+
+      #message-input {
+        width: 70%;
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #ffffff;
+      }
+
+      #send-button {
+        width: 20%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    }
   
-  <p id="current-time"></p>
-  <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>group Chat</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  </style>
 </head>
-<body bgcolor= "#ffb404">
+<body>
+  <h1>whattschat</h1>
   <div id="messages-container">
     <div id="messages"></div>
     <div id="message-input-container">
-      <input type="text" id="message-input">
+      <input type="text" id="message-input" placeholder="Type a message...">
       <button id="send-button">Send</button>
     </div>
   </div>
-    <script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script>
+    // Initialize Firebase
+    var firebaseConfig = {
+      // Your Firebase config here
+      apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
+      authDomain: "whattschat-f522c.firebaseapp.com",
+      databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
+      projectId: "whattschat-f522c",
+      storageBucket: "whattschat-f522c.appspot.com",
+      messagingSenderId: "746097682908",
+      appId: "1:746097682908:web:51a0278320ad4af5774719",
+    
+    };
+    firebase.initializeApp(firebaseConfig);
 
-var messagesDiv = document.getElementById("messages");
-      messagesDiv.style.border = "1px solid #000";
-      messagesDiv.style.padding = "10px";
+    // Get a reference to the database service
+    var database = firebase.database();
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var myuserid = url.searchParams.get("userid");
+    var mysecretkey = url.searchParams.get("secretkey");
+    var selecteduserid = url.searchParams.get("selecteduserid");
+    var passwordmatched = false;
 
-      // Make the messages div expand to the full width of the screen on small screens
-      if (window.innerWidth < 600) {
-        messagesDiv.style.maxWidth = "100%";
+    // Now connect to the database and link to the user; fetch secret key for the given userid
+    MyValRef = database.ref("/users/" + myuserid);
+
+    MyValRef.orderByValue().on("value", function (snapshot) {
+      snapshot.forEach(function (data) {
+        // Now compare database key with mysecret
+        if (mysecretkey == data.val()) {
+          passwordmatched = true;
+        }
+      });
+
+      if (passwordmatched != true) {
+        window.location.replace("whattschat/abc.html");
+      } else {
+        MyValRef.off();
       }
+    });
 
-      
-        // Initialize Firebase
-        var firebaseConfig = {
-          apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
-  authDomain: "whattschat-f522c.firebaseapp.com",
-  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
-  projectId: "whattschat-f522c",
-  storageBucket: "whattschat-f522c.appspot.com",
-  messagingSenderId: "746097682908",
-  appId: "1:746097682908:web:51a0278320ad4af5774719",
- 
-        };
-        firebase.initializeApp(firebaseConfig);
-        
-        // Get a reference to the database service
-        var database = firebase.database();       
-        var url_string = window.location.href; // www.test.com?filename=test
-        var url = new URL(url_string);
-        var myuserid = url.searchParams.get("userid");
-        var mysecretkey = url.searchParams.get("secretkey");
-        var selecteduserid = url.searchParams.get("selecteduserid");
-        var passwordmatched = false;
-      
-        //now connect to database and link to user; fetch secret key for given userid
-        MyValRef = database.ref("/users/" + myuserid);
+    // Get references to the input and send button
+    var messageInput = document.getElementById("message-input");
+    var sendButton = document.getElementById("send-button");
 
-        MyValRef.orderByValue().on("value", function(snapshot) {
-          snapshot.forEach(function(data) {
-            //now compare database s key with mysecret
-            if (mysecretkey == data.val()) {
-              passwordmatched = true;                
-            }         
-          });
+    // Get a reference to the messages div
+    var messagesDiv = document.getElementById("messages");
 
-          if (passwordmatched != true) {
-            window.location.replace("whattschat/abc.html");
-          }
-          else {
-            MyValRef.off();
-          }         
-        });
-
-        // Get references to the input and send button
-        var messageInput = document.getElementById("message-input");
-        var sendButton = document.getElementById("send-button");
-        
-        // Get a reference to the messages div
-        var messagesDiv = document.getElementById("messages");
-        
-        // Add an event listener to the send button
-        sendButton.addEventListener("click", function() {
-            // Get the current user's ID (you will need to implement your own authentication method)
-            var userId = myuserid;
-            
-            var messageText = messageInput.value;
-    if (messageText.length > 100) {
+    // Add an event listener to the send button
+    sendButton.addEventListener("click", function () {
+      // Get the current user's ID (you will need to implement your own authentication method)
+      var userId = myuserid;
+      var messageText = messageInput.value;
+      if (messageText.length > 100) {
         alert("Message should not exceed 100 characters");
         return;
+      }
+      if (messageText.length === "") {
+        alert("Message should not be empty");
+        return;
+      }
+
+      // Get the message text from the input field
+      var messageText = messageInput.value;
+      var MsgTime = getCurrentTime();
+      var MsgDate = getCurrentDate();
+
+      // Push the message to the database
+      database.ref("messages").push({
+        selecteduserid: selecteduserid,
+        userId: userId,
+        message: "[" + userId + "] " + messageText,
+        messageDate: MsgDate,
+        messageTime: MsgTime
+      });
+
+      // Clear the input field
+      messageInput.value = "";
+    });
+
+    database.ref("messages").on("child_added", function (snapshot) {
+      var messageData = snapshot.val();
+
+      var messageElement = document.createElement("div");
+      var messageBubble = document.createElement("div");
+      var messageContent = document.createElement("div");
+
+      messageBubble.classList.add("message-bubble");
+
+      if (messageData.userId == myuserid && messageData.selecteduserid == selecteduserid ||
+          messageData.userId == selecteduserid && messageData.selecteduserid == myuserid) {
+        if (messageData.userId == myuserid) {
+          messageElement.classList.add("my-message");
+        } else {
+          messageElement.classList.add("other-message");
+        }
+
+        messageElement.appendChild(messageBubble);
+        messageBubble.appendChild(messageContent);
+
+        var messageText = document.createElement("span");
+        messageText.textContent = messageData.message;
+
+        var messageTime = document.createElement("span");
+        messageTime.textContent = messageData.messageTime;
+
+        messageContent.appendChild(messageText);
+        messageContent.appendChild(document.createElement("br"));
+        messageContent.appendChild(messageTime);
+
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+    });
+
+    function getCurrentTime() {
+      var currentdate = new Date();
+      var hours = currentdate.getHours();
+      var minutes = currentdate.getMinutes();
+      var ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      var currentTime = hours + ":" + minutes + " " + ampm;
+      return currentTime;
     }
-            
-            // Get the message text from the input field
-            var messageText = messageInput.value;
-            var MsgTime = document.getElementById("current-time").innerHTML;
-            var MsgDate = new Date();
-            var MsgFullDate = MsgDate.getDay() + "/" + MsgDate.getMonth() + "/" + MsgDate.getFullYear();            
-            
 
-            // Push the message to the database
-            database.ref("messages").push({
-              selecteduserid:selecteduserid,
-                userId: userId,
-                message: messageText,
-                messageDate: MsgFullDate,
-                messageTime: MsgTime 
-
-            });
-            
-            // Clear the input field
-            messageInput.value = "";
-        });
-        
-        
-        database.ref("messages").on("child_added", function(snapshot) {
-            var messageData = snapshot.val();
-            
-            var messageElement = document.createElement("div");
-            if (messageData.selecteduserid == null & selecteduserid == null){
-            
-              messageElement.innerHTML = "<strong>" + messageData.userId + "</strong>: <small>(" + messageData.messageTime + ")</small> :" + messageData.message;
-              messagesDiv.appendChild(messageElement);
-            
-            } else if ((messageData.selecteduserid == selecteduserid & messageData.userId == myuserid)
-                        ||
-                        (messageData.selecteduserid == myuserid & messageData.userId == selecteduserid)
-                        ) {
-                          
-              messageElement.innerHTML = "<strong>" + messageData.userId + "</strong>: <small>(" + messageData.messageTime + ")</small> :" + messageData.message;
-              messagesDiv.appendChild(messageElement);
-            }
-        });
-
-        setInterval(function() {
-        var currentTime = new Date();
-        var hours = currentTime.getHours();
-        var minutes = currentTime.getMinutes();
-        var seconds = currentTime.getSeconds();
-
-        // Add leading zeros if necessary
-        if (hours < 10) {
-          hours = "0" + hours;
-        }
-        if (minutes < 10) {
-          minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-          seconds = "0" + seconds;
-        }
-
-        var timeString = hours + ':' + minutes;
-        document.getElementById("current-time").innerHTML = timeString;
-      }, 1000); // 1000 milliseconds = 1 second
-    </script>
+    function getCurrentDate() {
+      var currentdate = new Date();
+      var month = currentdate.getMonth() + 1;
+      var day = currentdate.getDate();
+      var year = currentdate.getFullYear();
+      var currentDate = day + "/" + month + "/" + year;
+      return currentDate;
+    }
+  </script>
 </body>
 </html>
