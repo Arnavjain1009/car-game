@@ -80,7 +80,7 @@
         font-size: 16px;
       }
 
-      #message-container {
+      #messages-container {
         position: fixed;
         bottom: 0;
         left: 0;
@@ -93,7 +93,7 @@
       #messages {
         border: 1px solid #cccccc;
         padding: 10px;
-        max-height: 60vh;
+        max-height: 50vh; /* Reduce the max-height to fit smaller screens better */
         overflow-y: auto;
       }
 
@@ -102,15 +102,28 @@
         padding: 10px;
         margin-right: 10px;
         border: 1px solid #ffffff;
+        font-size: 14px; /* Decrease the font size for smaller screens */
       }
 
       #send-button {
-        width: 20%;
+        width: 30%; /* Increase the width to make it easier to tap on mobile devices */
         padding: 10px;
         background-color: #4CAF50;
         color: white;
         border: none;
         cursor: pointer;
+        font-size: 14px; /* Decrease the font size for smaller screens */
+      }
+      
+      /* Enlarge the input box specifically for phones */
+      @media only screen and (max-width: 480px) {
+        #message-input {
+          width: 90%;
+        }
+        
+        #send-button {
+          width: 100%;
+        }
       }
     }
   
