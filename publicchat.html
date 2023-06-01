@@ -3,6 +3,7 @@
 <head>
   <title>whattschat</title>
   <link rel="icon" type="image/svg+xml" href="https://www.shutterstock.com/image-vector/initial-letter-number-logo-r-600w-621114830.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     /* CSS styles here */
     body {
@@ -14,7 +15,7 @@
 
     h1 {
       text-align: center;
-      padding: 20px;
+      padding: 4vw;
       background-color: #075e54;
       color: #ffffff;
       margin: 0;
@@ -25,74 +26,87 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      padding: 10px;
-      background-color: #f2f2f2;
+
       box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.3);
     }
 
     #messages {
       border: 1px solid #cccccc;
-      padding: 10px;
-      height: 300px;
+      padding: 2vh;
+      height: 65vh;
       overflow-y: scroll;
+      background-color: #f2f2f2;
     }
 
-   
     #message-input-container {
       display: flex;
       align-items: center;
-      margin-top: 10px;
+      margin-top: 2vh;
     }
 
     #message-input {
       flex: 1;
-      padding: 10px;
+      padding: 2vh;
       border: 1px solid #cccccc;
-      height: 100px; /* Set the height to make the input box larger */
       font-size: 3vw;
     }
 
     #send-button {
-      padding: 10px;
+      padding: 2vh;
       background-color: #4CAF50;
       color: white;
       border: none;
       cursor: pointer;
-      height: 100px;
-      width: 200px;
+      width: 20vw;
+      height: 7vh;
     }
 
-
+    /* Updated styles for message bubbles */
     .message-bubble {
       border-radius: 8px;
-      padding: 8px 16px;
-      margin-bottom: 10px;
+      margin-bottom: 2vh;
       word-wrap: break-word;
+      max-width: 80%;
+      background-color: lightblue;
+    }
+    .message-bubble2 {
+      border-radius: 8px;
+      margin-bottom: 2vh;
+      word-wrap: break-word;
+      max-width: 80%;
+      background-color: lightgrey;
     }
 
     .my-message {
-      background-color: #dcf8c6;
       color: #075e54;
       align-self: flex-end;
-      max-width: 70%;
+      text-align: right;
     }
 
     .other-message {
-      background-color: #ffffff;
       color: #000000;
       align-self: flex-start;
-      max-width: 70%;
+      text-align: left;
     }
 
-    /* New styles for message bubbles */
-    .my-message .message-bubble {
-      align-self: flex-end;
+    /* Added styles for message container */
+    .message-container {
+      display: flex;
+      justify-content: flex-start;
     }
 
-    .other-message .message-bubble {
-      align-self: flex-start;
+    .my-message .message-container {
+      justify-content: flex-end;
     }
 
+    /* Added styles for non-phone devices */
+    @media (min-width: 768px) {
+      .message-bubble,
+      .message-bubble2 {
+        padding: 1vh;
+        line-height: 1.5;
+      }
+    }
   </style>
 </head>
 <body>
@@ -107,17 +121,18 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script>
+    // JavaScript code here (same as before)
     // Initialize Firebase
     var firebaseConfig = {
       // Your Firebase config here
       apiKey: "AIzaSyBP5fSB_kiakv0r-WMo7BkP2Ik70c26tT0",
-      authDomain: "whattschat-f522c.firebaseapp.com",
-      databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
-      projectId: "whattschat-f522c",
-      storageBucket: "whattschat-f522c.appspot.com",
-      messagingSenderId: "746097682908",
-      appId: "1:746097682908:web:51a0278320ad4af5774719",
-    };
+  authDomain: "whattschat-f522c.firebaseapp.com",
+  databaseURL: "https://whattschat-f522c-default-rtdb.firebaseio.com",
+  projectId: "whattschat-f522c",
+  storageBucket: "whattschat-f522c.appspot.com",
+  messagingSenderId: "746097682908",
+  appId: "1:746097682908:web:51a0278320ad4af5774719",
+};
     firebase.initializeApp(firebaseConfig);
 
     // Get a reference to the database service
@@ -163,7 +178,7 @@
         alert("Message should not exceed 100 characters");
         return;
       }
-      if (messageText.length === "") {
+      if (messageText.length === 0) {
         alert("Message should not be empty");
         return;
       }
@@ -190,20 +205,25 @@
       var messageData = snapshot.val();
 
       var messageElement = document.createElement("div");
+      var messageContainer = document.createElement("div"); // Added message container
       var messageBubble = document.createElement("div");
       var messageContent = document.createElement("div");
 
-      messageBubble.classList.add("message-bubble");
-
+      messageContainer.classList.add("message-container"); // Added message container class
+   
       if (messageData.userId == myuserid && messageData.selecteduserid == selecteduserid ||
           messageData.userId == selecteduserid && messageData.selecteduserid == myuserid) {
         if (messageData.userId == myuserid) {
+          messageBubble.classList.add("message-bubble");
           messageElement.classList.add("my-message");
         } else {
+          messageBubble.classList.add("message-bubble2");
+
           messageElement.classList.add("other-message");
         }
 
-        messageElement.appendChild(messageBubble);
+        messageElement.appendChild(messageContainer); // Added message container to message element
+        messageContainer.appendChild(messageBubble); // Added message bubble to message container
         messageBubble.appendChild(messageContent);
 
         var messageText = document.createElement("span");
@@ -217,6 +237,9 @@
         messageContent.appendChild(messageTime);
 
         messagesDiv.appendChild(messageElement);
+        if (!isPhoneDevice()) {
+          messagesDiv.appendChild(document.createElement("hr")); // Added horizontal line after each message
+        }
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
       }
     });
@@ -241,6 +264,48 @@
       var currentDate = day + "/" + month + "/" + year;
       return currentDate;
     }
+
+    function isPhoneDevice() {
+      var phoneDeviceWidth = 768; // Adjust the width as per your needs
+      return window.innerWidth < phoneDeviceWidth;
+    }
+  </script>
+  <!-- Code injected by live-server -->
+  <script>
+    // <![CDATA[  <-- For SVG support
+    if ('WebSocket' in window) {
+      (function () {
+        function refreshCSS() {
+          var sheets = [].slice.call(document.getElementsByTagName("link"));
+          var head = document.getElementsByTagName("head")[0];
+          for (var i = 0; i < sheets.length; ++i) {
+            var elem = sheets[i];
+            var parent = elem.parentElement || head;
+            parent.removeChild(elem);
+            var rel = elem.rel;
+            if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+              var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+              elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+            }
+            parent.appendChild(elem);
+          }
+        }
+        var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+        var address = protocol + window.location.host + window.location.pathname + '/ws';
+        var socket = new WebSocket(address);
+        socket.onmessage = function (msg) {
+          if (msg.data == 'reload') window.location.reload();
+          else if (msg.data == 'refreshcss') refreshCSS();
+        };
+        if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+          console.log('Live reload enabled.');
+          sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+        }
+      })();
+    } else {
+      console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+    }
+    // ]]>
   </script>
 </body>
 </html>
